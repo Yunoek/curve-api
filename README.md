@@ -1,7 +1,7 @@
 # Curve API
 
 All endpoints are cached for around 10 minutes (some less). 
-Requests can be made to the following URL: https://api.curve.fi/api/<endpoint>
+Requests can be made to the following URL: https://api.curve.fi/api/
 
 ## Endpoints
 - getETHprice (returns Ethereum price to calculate gas prices)
