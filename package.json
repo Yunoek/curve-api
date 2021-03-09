@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "big-number": "^2.0.0",
     "memoizee": "^0.4.15",
     "next": "10.0.8",
     "react": "17.0.1",
