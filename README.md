@@ -1,7 +1,7 @@
 # Curve API
 
-All endpoints can be cached using a simple config option.
-Any static files (such as json configs) should be put under `/public` so that they can be deployed through a CDN and accessed faster. Any endpoint executing logic or fetching remote data should be implemented as a small endpoint under `/pages/api`.
+All endpoints are cached for around 10 minutes (some less). 
+Requests can be made to the following URL: https://api.curve.fi/api/<endpoint>
 
 ## Endpoints
 - getETHprice (returns Ethereum price to calculate gas prices)
