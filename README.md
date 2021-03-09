@@ -3,6 +3,14 @@
 All endpoints can be cached using a simple config option.
 Any static files (such as json configs) should be put under `/public` so that they can be deployed through a CDN and accessed faster. Any endpoint executing logic or fetching remote data should be implemented as a small endpoint under `/pages/api`.
 
+## Endpoints
+- getETHprice (returns Ethereum price to calculate gas prices)
+- getFactoryTVL (returns factory TVL excluding 3CRV and sBTCCRV which is counted in the main TVL)
+- getRegistryAddress (return registry address)
+
+
+
+
 ## How to add a new endpoint
 
 1. Create a new file under `/pages/api`: the endpoint will be accessible through the same path, e.g. `/pages/api/hithere` would accessible through `api.curve.fi/api/hithere`
