@@ -5,8 +5,10 @@ Any static files (such as json configs) should be put under `/public` so that th
 
 ## Endpoints
 - getETHprice (returns Ethereum price to calculate gas prices)
+- getFactoryPools (returns all factory pools with balances and token details)
 - getFactoryTVL (returns factory TVL excluding 3CRV and sBTCCRV which is counted in the main TVL)
 - getRegistryAddress (return registry address)
+- getWeeklyFees (returns fees distributed per week to veCRV holders)
 
 
 
