@@ -1,8 +1,14 @@
 import memoize from 'memoizee';
 
-const formatJsonError = (err) => (
-  { err: err.toString ? err.toString() : err }
-);
+const formatJsonSuccess = (data) => ({
+  success: true,
+  data,
+});
+
+const formatJsonError = (err) => ({
+  success: false,
+  err: err.toString ? err.toString() : err,
+});
 
 const fn = (cb, options = {}) => {
   const {
@@ -18,7 +24,7 @@ const fn = (cb, options = {}) => {
 
   return async (req, res) => (
     Promise.resolve(callback(req.query))
-      .then((json) => res.status(200).json(json))
+      .then((data) => res.status(200).json(formatJsonSuccess(data)))
       .catch((err) => res.status(500).json(formatJsonError(err)))
   );
 };
