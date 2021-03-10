@@ -18,18 +18,20 @@ export default fn(async () => {
     let tvl = 0;
     let btcTVL = {
       'native': 0,
-      'usd': 0
+      'usd': 0,
+      'asset': 'bitcoin'
     }
     let ethTVL = {
       'native': 0,
-      'usd': 0
+      'usd': 0,
+      'asset': 'ethereum'
     }
     let eurTVL = {
       'native': 0,
-      'usd': 0
+      'usd': 0,
+      'asset': 'euro'
     }
     let otherTVL = {
-      'native': 0,
       'usd': 0
     }
     let usdTVL = 0;
