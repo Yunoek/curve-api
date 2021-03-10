@@ -9,5 +9,5 @@ export default fn(async () => {
   return { registryAddress };
 
 }, {
-  maxAge: 3600,
+  maxAge: 3600, // 1 hour
 });
