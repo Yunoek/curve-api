@@ -2,14 +2,16 @@
 
 **Base is always: https://api.curve.fi/**
 
-Refresh rates vary and can be found in the `generatedTimeMs` property.
+Last generation time of an endpoint can be found in the `generatedTimeMs` property.
 
-### [getETHprice](https://api.curve.fi/api/getETHprice)
+### getETHprice
 ```
 GET /api/getETHprice
 ```
 Current Ethereum price used to calculate gas price
 
+**View**:
+[getETHprice](https://api.curve.fi/api/getETHprice)
 
 **Parameters:**
 NONE
@@ -24,7 +26,7 @@ NONE
 }
 ```
 
-### [getFactoryPools](https://api.curve.fi/api/getFactoryPools)
+### getFactoryPools
 ```
 GET /api/getFactoryPools
 ```
@@ -33,6 +35,8 @@ Returns all factory pools with balances and token details
 **Parameters:**
 NONE
 
+**View**:
+[getFactoryPools](https://api.curve.fi/api/getFactoryPools)
 
 **Response :**
 
