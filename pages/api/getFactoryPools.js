@@ -11,6 +11,7 @@ const web3 = new Web3(`https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY
 export default fn(async () => {
   const lpTokenUSD = '0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490';
   const lpTokenbBTC = '0x075b1bb99792c9E1041bA13afEf80C91a1e70fB3';
+  const LP_TOKEN_DECIMALS = 18;
 
   const registryAddress = await getFactoryRegistry();
   const multicallAddress = await getMultiCall();
@@ -79,12 +80,8 @@ export default fn(async () => {
     const balanceFormatted = balance / (10 ** decimals);
     i += 1;
     const lpBalance = web3.eth.abi.decodeParameter('uint256', balanceData[i]);
-    const lpBalanceFormatted = lpBalance / (10 ** 18);
+    const lpBalanceFormatted = lpBalance / (10 ** LP_TOKEN_DECIMALS);
 
-    let lpToken = lpTokenUSD;
-    if (poolTypes[poolIndex] === 'BTC') {
-      lpToken = lpTokenbBTC;
-    }
     factoryTotal0 += balanceFormatted;
     factoryTotal1 += lpBalanceFormatted;
 
@@ -92,15 +89,22 @@ export default fn(async () => {
 
     const poolInfo = {
       address: poolList[poolIndex],
-      symbol: symbol,
-      decimals: decimals,
-      balance: balance,
-      balanceFormatted: balanceFormatted.toFixed(2),
-      lpBalance: lpBalance,
-      lpBalanceFormatted: lpBalanceFormatted.toFixed(2),
-      poolType: poolTypes[poolIndex],
-      lpToken: lpToken,
-      poolBalanceTotal: poolBalanceTotal.toFixed(2),
+      type: poolTypes[poolIndex],
+      balance: poolBalanceTotal.toFixed(2),
+      token: {
+        address: coinList[poolIndex],
+        symbol,
+        decimals: parseInt(decimals, 10),
+        rawBalance: balance,
+        balance: balanceFormatted.toFixed(2),
+      },
+      lpToken: {
+        address: poolTypes[poolIndex] === 'BTC' ? lpTokenbBTC : lpTokenUSD,
+        symbol: poolTypes[poolIndex] === 'BTC' ? 'sbtcCrv' : '3Crv',
+        decimals: LP_TOKEN_DECIMALS,
+        rawBalance: lpBalance,
+        balance: lpBalanceFormatted.toFixed(2),
+      },
     };
 
     poolIndex += 1;
@@ -108,8 +112,8 @@ export default fn(async () => {
   }
 
   const totals = {
-    0: factoryTotal0.toFixed(2),
-    1: factoryTotal1.toFixed(2),
+    tokenBalances: factoryTotal0.toFixed(2),
+    lpTokenBalances: factoryTotal1.toFixed(2),
     totalIncludingLP: parseFloat(factoryTotal1 + factoryTotal0).toFixed(2),
   };
 
