@@ -6,32 +6,9 @@ Requests can be made to the following URL: https://api.curve.fi/api/
 ## Endpoints
 
 ### Exchange information
-```
-GET /api/getETHprice
-```
-Current Ethereum price used to calculate gas price
 
-
-**Parameters:**
-NONE
-
-
-**Response :**
-
-```
-"data": {
-   "price": 1826.11, //price of Ethereum in USD
-   "generatedTimeMs": 1615380294701 //when the response was generated
-}
-```
-
-- getFactoryPools (returns all factory pools with balances and token details)
-- getFactoryTVL (returns factory TVL excluding 3CRV and sBTCCRV which is counted in the main TVL)
-- getRegistryAddress (return registry address)
-- getWeeklyFees (returns fees distributed per week to veCRV holders)
-
-
-
+Endpoints list and example response can be found below: 
+https://github.com/curvefi/curve-api/blob/main/endpoints.md
 
 ## How to add a new endpoint
 
