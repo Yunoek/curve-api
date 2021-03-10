@@ -1,7 +1,10 @@
 ## Table of Contents
 
   - [getETHprice](#getethprice)
-  - [getFactoryPools](#getFactoryPools)
+  - [getFactoryPools](#getfactorypools)
+  - [getFactoryTVL](#getfactorytvl)
+  - [getRegistryAddress](#getfactoryaddress)
+  - [getWeeklyFees](#getweeklyfees)
 
 
 ## List of Endpoints
@@ -68,3 +71,72 @@ NONE
 },
 ```
 
+### getFactoryTVL 
+```
+GET /api/getFactoryTVL 
+```
+Returns factory TVL excluding LP tokens (which are already counted in the main Curve TVL.
+
+**View**:
+[getFactoryTVL](https://api.curve.fi/api/getFactoryTVL)
+
+**Parameters:**
+NONE
+
+
+**Response :**
+
+```
+"data": {
+  "factoryBalances": 139264023, //factory balances in USD
+  "generatedTimeMs": 1615381415356
+}
+```
+
+### getRegistryAddress 
+```
+GET /api/getRegistryAddress 
+```
+Returns registry address which is subject to change.
+
+**View**:
+[getRegistryAddress](https://api.curve.fi/api/getRegistryAddress)
+
+**Parameters:**
+NONE
+
+
+**Response :**
+
+```
+"data": {
+  "registryAddress": "0x7D86446dDb609eD0F5f8684AcF30380a356b2B4c",
+  "generatedTimeMs": 1615381483925
+}
+```
+
+
+### getWeeklyFees 
+```
+GET /api/getWeeklyFees 
+```
+Returns weekly fees distributed to veCRV holders.
+
+**View**:
+[getWeeklyFees](https://api.curve.fi/api/getWeeklyFees)
+
+**Parameters:**
+NONE
+
+
+**Response :**
+
+```
+"data": {
+  "weeklyFeesTable": [
+    {
+      "date": "Thu Mar 04 2021",
+      "ts": 1614816000000, //timestamp of epoch start
+      "rawFees": 23928.77840856761 //fees for the week in USD
+    }
+```
