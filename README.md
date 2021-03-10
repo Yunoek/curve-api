@@ -2,7 +2,7 @@
 
 This API is used by various services to serve data. It is a public API intended for all those seeking to integrate Curve data onto their own projects.
 
-# Public REST API
+## Public REST API
 
 Endpoints list and example response can be found below: 
 https://github.com/curvefi/curve-api/blob/main/endpoints.md
