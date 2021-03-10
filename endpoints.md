@@ -4,6 +4,7 @@
   - [getFactoryPools](#getfactorypools)
   - [getFactoryTVL](#getfactorytvl)
   - [getRegistryAddress](#getfactoryaddress)
+  - [getTVL](#getTVL)
   - [getWeeklyFees](#getweeklyfees)
 
 
