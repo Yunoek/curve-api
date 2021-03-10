@@ -1,3 +1,9 @@
+## Table of Contents
+
+  - [getETHprice](#getethprice)
+  - [getFactoryPools](#getFactoryPools)
+
+
 ## List of Endpoints
 
 **Base is always: https://api.curve.fi/**
