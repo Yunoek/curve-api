@@ -4,7 +4,27 @@ All endpoints are cached for around 10 minutes (some less).
 Requests can be made to the following URL: https://api.curve.fi/api/
 
 ## Endpoints
-- getETHprice (returns Ethereum price to calculate gas prices)
+
+### Exchange information
+```
+GET /api/getETHprice
+```
+Current Ethereum price used to calculate gas price
+
+
+**Parameters:**
+NONE
+
+
+**Response :**
+
+```
+"data": {
+   "price": 1826.11, //price of Ethereum in USD
+   "generatedTimeMs": 1615380294701 //when the response was generated
+}
+```
+
 - getFactoryPools (returns all factory pools with balances and token details)
 - getFactoryTVL (returns factory TVL excluding 3CRV and sBTCCRV which is counted in the main TVL)
 - getRegistryAddress (return registry address)
