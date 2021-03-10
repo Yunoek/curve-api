@@ -52,7 +52,7 @@ NONE
 ```
 {
   "address": "0x43b4FdFD4Ff969587185cDB6f0BD875c5Fc83f8c", //pool address
-  "type": "USD", //asset type 
+  "type": "USD", //asset type
   "balance": "274913010.55", //total balance
   "token": {
     "address": "0xBC6DA0FE9aD5f3b0d58160288917AA56653660E9", //address of token 1
@@ -71,9 +71,9 @@ NONE
 },
 ```
 
-### getFactoryTVL 
+### getFactoryTVL
 ```
-GET /api/getFactoryTVL 
+GET /api/getFactoryTVL
 ```
 Returns factory TVL excluding LP tokens (which are already counted in the main Curve TVL.
 
@@ -93,9 +93,9 @@ NONE
 }
 ```
 
-### getRegistryAddress 
+### getRegistryAddress
 ```
-GET /api/getRegistryAddress 
+GET /api/getRegistryAddress
 ```
 Returns registry address which is subject to change.
 
@@ -116,9 +116,38 @@ NONE
 ```
 
 
-### getWeeklyFees 
+### getTVL
 ```
-GET /api/getWeeklyFees 
+GET /api/getTVL
+```
+Returns registry address which is subject to change.
+
+**View**:
+[getTVL](https://api.curve.fi/api/getTVL)
+
+**Parameters:**
+NONE
+
+
+**Response :**
+
+```
+"data": {
+  "tvl": 3961187920.275839, //total tvl excluding the factory
+  "usdTVL": 1761657547.966614, //stable tvl
+  "ethTVL": {
+    "native": 393332.35772124684, //number of eth
+    "usd": 730209722.1387632, //amount of eth in usd
+    "asset": "ethereum"
+  },
+}
+```
+
+
+
+### getWeeklyFees
+```
+GET /api/getWeeklyFees
 ```
 Returns weekly fees distributed to veCRV holders.
 
