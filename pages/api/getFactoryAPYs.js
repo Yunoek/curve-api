@@ -28,13 +28,15 @@ export default fn(async () => {
       res.data.poolData.map(async (pool, index) => {
 
           let poolContract = new web3.eth.Contract(factorypool3Abi, pool.address)
-          const DAY_BLOCKS = 6550
+          let DAY_BLOCKS = 6550
           let latest = await web3.eth.getBlockNumber()
+
+          let vPriceOldFetch;
           try {
-            let vPriceOldFetch = await poolContract.methods.get_virtual_price().call('', latest - DAY_BLOCKS)
+            vPriceOldFetch = await poolContract.methods.get_virtual_price().call('', latest - DAY_BLOCKS)
           } catch (e) {
-            console.log('error', pool.address)
-            return;
+            vPriceOldFetch = 1 * (10 ** 18)
+            DAY_BLOCKS = 1;
           }
           const testPool = pool.address
           const eventName = 'TokenExchangeUnderlying';
@@ -52,8 +54,12 @@ export default fn(async () => {
             //   console.log('$',t, trade.transactionHash)
             // }
           })
-          let vPriceFetch = await poolContract.methods.get_virtual_price().call()
-          let vPriceOldFetch = await poolContract.methods.get_virtual_price().call('', latest - DAY_BLOCKS)
+          let vPriceFetch
+          try {
+            vPriceFetch = await poolContract.methods.get_virtual_price().call()
+          } catch (e) {
+            vPriceFetch = 1 * (10 ** 18)
+          }
 
           let vPrice = vPriceOldFetch
           let vPriceNew = vPriceFetch
@@ -73,7 +79,6 @@ export default fn(async () => {
       })
     )
     poolDetails.sort((a,b) => (a.index > b.index) ? 1 : ((b.index > a.index) ? -1 : 0))
-
 
     return { poolDetails, totalVolume };
 
