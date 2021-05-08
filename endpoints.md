@@ -121,7 +121,7 @@ NONE
 ```
 GET /api/getTVL
 ```
-Returns registry address which is subject to change.
+Returns Curve TVL
 
 **View**:
 [getTVL](https://api.curve.fi/api/getTVL)
@@ -144,7 +144,49 @@ NONE
 }
 ```
 
+### getTVLFantom
+```
+GET /api/getTVLFantom
+```
+Returns TVL on Fantom
 
+**View**:
+[getTVLFantom](https://api.curve.fi/api/getTVLFantom)
+
+**Parameters:**
+NONE
+
+
+**Response :**
+
+```
+"data": {
+  "tvl": 11283973.12937601,
+  "generatedTimeMs": 1620458596596
+}
+```
+
+### getTVLPolygon
+```
+GET /api/getTVLPolygon
+```
+Returns TVL on Polygon
+
+**View**:
+[getTVLPolygon](https://api.curve.fi/api/getTVLPolygon)
+
+**Parameters:**
+NONE
+
+
+**Response :**
+
+```
+"data": {
+  "tvl": 11283973.12937601,
+  "generatedTimeMs": 1620458596596
+}
+```
 
 ### getWeeklyFees
 ```
