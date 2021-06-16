@@ -9,7 +9,7 @@ import multicallAbi from '../../constants/abis/multicall.json';
 import erc20Abi from '../../constants/abis/erc20.json';
 import cryptoPoolAbi from '../../constants/abis/crypto_pool.json';
 
-const web3 = new Web3(`https://mainnet.infura.io/v3/fac98e56ea7e49608825dfc726fab703`);
+const web3 = new Web3(`https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`);
 
 
 export default fn(async () => {
@@ -17,10 +17,12 @@ export default fn(async () => {
     let cryptoPools = {
       'tricrypto': {
         'address': '0x80466c64868E1ab14a1Ddf27A676C3fcBE638Fe5',
+        'token': '0xcA3d75aC011BF5aD07a98d02f18225F9bD9A6BDF',
         'coins': 3,
         'keys': ['tether', 'bitcoin', 'ethereum'],
         'decimals': [6, 8, 18],
-        'tvl': 0
+        'tvl': 0,
+        'lpPrice': 0
       }
     }
 
@@ -31,10 +33,13 @@ export default fn(async () => {
       for (var i = 0; i < pool.coins; i++) {
 
          let balance = await poolContract.methods.balances(i).call();
-
-         console.log(balance / 10 ** pool.decimals[i] * price_feed[pool.keys[i]].usd)
          cryptoPools[key].tvl += balance / 10 ** pool.decimals[i] * price_feed[pool.keys[i]].usd
       }
+
+      let tokenContract = new web3.eth.Contract(erc20Abi, pool.token);
+
+      let supply = await tokenContract.methods.totalSupply().call();
+      cryptoPools[key].lpPrice = cryptoPools[key].tvl / (supply / 10 ** 18)
 
     }
 
