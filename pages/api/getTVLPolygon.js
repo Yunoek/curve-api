@@ -17,7 +17,8 @@ export default fn(async () => {
     let pools = {
       'aave': {
         'address': '0x445FE580eF8d70FF569aB36e80c647af338db351',
-        'decimals': [18,6,6]
+        'decimals': [18,6,6],
+        'tvl': 0
       }
     }
     let tvl = 0
@@ -28,14 +29,13 @@ export default fn(async () => {
           pool.decimals.map(async (decimal, index) => {
             let balance = await poolC.methods.balances(index).call()
             balance = balance / (10 ** decimal)
-            console.log(balance)
-
+            pools[key].tvl += balance
             tvl += parseFloat(balance)
           })
         )
       }
 
-    return { tvl };
+    return { tvl, pools };
 
 
 }, {

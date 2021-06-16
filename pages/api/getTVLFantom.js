@@ -17,11 +17,13 @@ export default fn(async () => {
     let pools = {
       '2pool': {
         'address': '0x27e611fd27b276acbd5ffd632e5eaebec9761e40',
-        'decimals': [18 ,6]
+        'decimals': [18 ,6],
+        'tvl': 0
       },
       'fusdt': {
         'address': '0x92d5ebf3593a92888c25c0abef126583d4b5312e',
-        'decimals': [6]
+        'decimals': [6],
+        'tvl': 0
       }
     }
     let tvl = 0
@@ -32,13 +34,13 @@ export default fn(async () => {
           pool.decimals.map(async (decimal, index) => {
             let balance = await poolC.methods.balances(index).call()
             balance = balance / (10 ** decimal)
-
+            pools[key].tvl += balance
             tvl += parseFloat(balance)
           })
         )
       }
 
-    return { tvl };
+    return { tvl, pools };
 
 
 }, {
