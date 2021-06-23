@@ -27,7 +27,7 @@ export default fn(async () => {
     }
 
     let price_feed = await (await fetch('https://api.coingecko.com/api/v3/simple/price?ids=tether,ethereum,bitcoin&vs_currencies=usd')).json()
-    console.log(price_feed)
+
     for (const [key, pool] of Object.entries(cryptoPools)) {
       let poolContract = new web3.eth.Contract(cryptoPoolAbi, pool.address);
       for (var i = 0; i < pool.coins; i++) {
