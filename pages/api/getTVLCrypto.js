@@ -23,6 +23,15 @@ export default fn(async () => {
         'decimals': [6, 8, 18],
         'tvl': 0,
         'lpPrice': 0
+      },
+      'tricrypto2': {
+        'address': '0xD51a44d3FaE010294C616388b506AcdA1bfAAE46',
+        'token': '0xc4AD29ba4B3c580e6D59105FFf484999997675Ff',
+        'coins': 3,
+        'keys': ['tether', 'bitcoin', 'ethereum'],
+        'decimals': [6, 8, 18],
+        'tvl': 0,
+        'lpPrice': 0
       }
     }
 
