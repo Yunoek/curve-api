@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "vercel dev",
+    "d": "vercel dev",
     "build": "next build",
     "start": "next start"
   },

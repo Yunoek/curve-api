@@ -97,6 +97,7 @@ export default fn(async () => {
   }, []);
 
   const coinPrices = await getTokensPrices(allCoinAddresses.map(({ address }) => address));
+  console.log({ coinPrices})
 
   const coinData = await multiCall(flattenArray(allCoinAddresses.map(({ poolId, address }) => {
     const coinContract = new web3.eth.Contract(erc20Abi, address);
@@ -174,6 +175,7 @@ export default fn(async () => {
 
   return {
     poolData: augmentedData,
+    tvl: sum(augmentedData.map(({ usdTotal }) => usdTotal)),
   };
 }, {
   maxAge: 5 * 60, // 5 min
