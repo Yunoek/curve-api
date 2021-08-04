@@ -159,8 +159,8 @@ const abiData = {
     swap_abi: obtcSwapABI,
     swap_address: '0xd81dA8D904b52208541Bade1bD6595D8a251F8dd',
     sCurveRewards_abi: obtcSCurveRewardsAbi,
-    sCurveRewards_address: '0x7f1ae7a1fc275b5b9c3ad4497fa94e3b9424e76e',
-    reward_token: '0x3c9d6c1C73b31c837832c72E04D3152f051fc1A9',
+    sCurveRewards_address: '0xcee63697ccaa5b14d20bb111639b13e78fc64ab0',
+    reward_token: '0xbc19712feb3a26080ebf6f2f7849b417fdd792ca',
   },
   seth: {
     swap_abi: sethSwapABI,
