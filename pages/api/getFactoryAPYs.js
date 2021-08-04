@@ -42,10 +42,13 @@ export default fn(async (query) => {
           }
           const testPool = pool.address
           const eventName = 'TokenExchangeUnderlying';
+          const eventName2 = 'TokenExchange';
+
           let decimals = version === 1 ?
             [pool.token.decimals, 18, 18, 18] :
             pool.decimals;
           let volume = 0;
+
           let events = await poolContract.getPastEvents(eventName, {
               filter: {}, // Using an array means OR: e.g. 20 or 23
               fromBlock: latest - DAY_BLOCKS,
@@ -58,6 +61,25 @@ export default fn(async (query) => {
             //   console.log('$',t, trade.transactionHash)
             // }
           })
+
+
+          if (version == '2') {
+            let events2 = await poolContract.getPastEvents(eventName2, {
+                filter: {}, // Using an array means OR: e.g. 20 or 23
+                fromBlock: latest - DAY_BLOCKS,
+                toBlock: 'latest'
+            })
+            events2.map(async (trade) => {
+              let t = trade.returnValues[2] / 10 ** decimals[trade.returnValues[1]]
+              volume += t
+              // if (t > 1000000) {
+              //   console.log('$',t, trade.transactionHash)
+              // }
+            })
+          }
+
+
+
           let vPriceFetch
           try {
             vPriceFetch = await poolContract.methods.get_virtual_price().call()
