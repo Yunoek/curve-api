@@ -40,11 +40,16 @@ export default fn(async () => {
 
   	//get decimals and balance
   	calls = []
+    coinList = coinList.filter(item => item !== '0x95dFDC8161832e4fF7816aC4B6367CE201538253')
+
   	coinList.map(async(coin_address, index) => {
-  		let erc20Contract = new web3.eth.Contract(erc20Abi, coin_address)
-  		calls.push([coin_address, '0x313ce567']) //decimals
-  		calls.push([coin_address, erc20Contract.methods.balanceOf(poolList[index]).encodeABI()]) //balance of pool
+          let erc20Contract = new web3.eth.Contract(erc20Abi, coin_address)
+      		calls.push([coin_address, '0x313ce567']) //decimals
+      		calls.push([coin_address, erc20Contract.methods.balanceOf(poolList[index]).encodeABI()]) //balance of pool
+
+
   	})
+
 
 
 
@@ -53,8 +58,11 @@ export default fn(async () => {
   	let factoryBalances = 0;
   	for (var i = 0; i < coinList.length * 2; i++) {
   		let decimals = web3.eth.abi.decodeParameter('uint8', balanceData[i])
+
   		i++
   		let balance = web3.eth.abi.decodeParameter('uint256', balanceData[i])
+      console.log(+BigNumber(balance).div(10 ** decimals), i )
+
   		factoryBalances += +BigNumber(balance).div(10 ** decimals)
   	}
 
