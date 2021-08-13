@@ -50,19 +50,13 @@ export default fn(async () => {
 
   	})
 
-
-
-
   	let balanceData = await multicall.methods.aggregate(calls).call()
   	balanceData = balanceData[1]
   	let factoryBalances = 0;
   	for (var i = 0; i < coinList.length * 2; i++) {
   		let decimals = web3.eth.abi.decodeParameter('uint8', balanceData[i])
-
   		i++
   		let balance = web3.eth.abi.decodeParameter('uint256', balanceData[i])
-      console.log(+BigNumber(balance).div(10 ** decimals), i )
-
   		factoryBalances += +BigNumber(balance).div(10 ** decimals)
   	}
 
