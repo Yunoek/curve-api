@@ -21,7 +21,8 @@ const getMultiCall = async () => {
 
 const getFactoryRegistry = memoize(async () => {
   const contract = new web3.eth.Contract(addressGetterAbi, addressGetter);
-  return contract.methods.get_address(3).call();
+  return '0x0959158b6040D32d04c301A72CBFD6b39E21c9AE' //pold factory
+  //return contract.methods.get_address(3).call();
 }, {
   promise: true,
   maxAge: 10 * 60 * 1000, // 10 min
