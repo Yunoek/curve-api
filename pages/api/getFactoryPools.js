@@ -119,5 +119,5 @@ export default fn(async () => {
 
   return { poolData, totals };
 }, {
-  maxAge: 5 * 60, // 5 min
+  maxAge: 30, // 5 min
 });

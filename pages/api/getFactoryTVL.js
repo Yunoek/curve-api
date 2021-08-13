@@ -69,5 +69,5 @@ export default fn(async () => {
     return { factoryBalances };
 
 }, {
-  maxAge: 15 * 60, // 15 min
+  maxAge: 30, // 15 min
 });

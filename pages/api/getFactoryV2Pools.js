@@ -178,5 +178,5 @@ export default fn(async () => {
     tvl: sum(augmentedData.map(({ usdTotal }) => usdTotal)),
   };
 }, {
-  maxAge: 5 * 60, // 5 min
+  maxAge: 30, // 5 min
 });
