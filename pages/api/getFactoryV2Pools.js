@@ -66,6 +66,11 @@ export default fn(async () => {
       metaData: { poolId: id, type: 'decimals' },
     }, {
       contract: registry,
+      methodName: 'get_underlying_decimals', // address[8]
+      params: [address],
+      metaData: { poolId: id, type: 'underlyingDecimals' },
+    }, {
+      contract: registry,
       methodName: 'get_implementation_address', // address
       params: [address],
       metaData: { poolId: id, type: 'implementationAddress' },

@@ -44,9 +44,18 @@ export default fn(async (query) => {
           const eventName = 'TokenExchangeUnderlying';
           const eventName2 = 'TokenExchange';
 
-          let decimals = version === 1 ?
-            [pool.token.decimals, 18, 18, 18] :
-            pool.decimals;
+          const isMetaPool = (
+            pool.implementation?.startsWith('v1metausd') ||
+            pool.implementation?.startsWith('metausd') ||
+            pool.implementation?.startsWith('v1metabtc') ||
+            pool.implementation?.startsWith('metabtc')
+          );
+
+          let decimals = (
+            version === 1 ? [pool.token.decimals, 18, 18, 18] :
+            (version === 2 && isMetaPool) ? pool.underlyingDecimals :
+            pool.decimals
+          );
           let volume = 0;
 
           let events = await poolContract.getPastEvents(eventName, {
