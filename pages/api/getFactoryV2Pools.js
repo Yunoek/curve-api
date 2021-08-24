@@ -6,6 +6,7 @@ import erc20Abi from '../../constants/abis/erc20.json';
 import { multiCall } from '../../utils/Calls';
 import { flattenArray, sum } from '../../utils/Array';
 import getTokensPrices from '../../utils/data/tokens-prices';
+import { IS_DEV } from 'constants/AppConstants';
 
 const web3 = new Web3(`https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`);
 
@@ -44,13 +45,19 @@ export default fn(async () => {
   const poolCount = Number(await registry.methods.pool_count().call());
   const poolIds = Array(poolCount).fill(0).map((_, i) => i);
 
-  const poolAddresses = await multiCall(poolIds.map((id) => ({
+  let poolAddresses = await multiCall(poolIds.map((id) => ({
     contract: registry,
     methodName: 'pool_list',
     params: [id],
   })));
 
-  const poolData = await multiCall(flattenArray(poolAddresses.map((address, id) => {
+  const BASE_API_DOMAIN = IS_DEV ? 'http://localhost:3000' : 'https://api.curve.fi';
+  let res = await (await fetch(`${BASE_API_DOMAIN}/api/getMainRegistryPools`)).json()
+
+
+
+
+    const poolData = await multiCall(flattenArray(poolAddresses.map((address, id) => {
     const poolContract = new web3.eth.Contract(factoryPoolAbi, address);
 
     // Note: reverting for at least some pools, prob non-meta ones: get_underlying_coins, get_underlying_decimals
@@ -180,9 +187,17 @@ export default fn(async () => {
     };
   });
 
+  let tvl = 0
+  augmentedData.map(async(pool) => {
+    if (!res.data.poolList.includes(pool.address)) {
+      tvl += pool.usdTotal
+    }
+  })
+
   return {
     poolData: augmentedData,
-    tvl: sum(augmentedData.map(({ usdTotal }) => usdTotal)),
+    tvlAll: sum(augmentedData.map(({ usdTotal }) => usdTotal)),
+    tvl: tvl //this tvl excludes pools which also exist in the main registry to avoid double counting
   };
 }, {
   maxAge: 30, // 30s

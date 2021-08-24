@@ -339,8 +339,8 @@ export default fn(async () => {
       type: 'euro-tether',
     },
     "mim": {
-      swap: '0xfd5db7463a3ab53fd211b4af195c5bccc1a03890',
-      swap_token: '0xfd5db7463a3ab53fd211b4af195c5bccc1a03890',
+      swap: '0x5a6A4D54456819380173272A5E8E9B9904BdF41B',
+      swap_token: '0x5a6A4D54456819380173272A5E8E9B9904BdF41B',
       name: 'mim',
       gauge: '0xd8b712d29381748dB89c36BCa0138d7c75866ddF',
       type: 'stable',
