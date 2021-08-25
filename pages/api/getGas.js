@@ -34,7 +34,7 @@ export default fn(async () => {
   const baseFeePaddingFactor = 4 * 0.125; // Enough to allow base fee to go up in 4 consecutive blocks
 
   const gasNowPrices = [gasNowData.rapid, gasNowData.fast, gasNowData.standard, gasNowData.slow];
-  const minPrioPrice = [4, 3, 2, 1];
+  const minPrioPrice = [4 * 1e9, 3 * 1e9, 2 * 1e9, 1 * 1e9];
   const suggestedPrioPrices = gasNowPrices.map((totalPrice, i) => (
     Math.max(parseInt(totalPrice, 10) - baseFee, minPrioPrice[i])
   ));
