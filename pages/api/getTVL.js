@@ -30,7 +30,7 @@ export default fn(async () => {
     tvl[pool.id] = Number(balanceOf).toFixed(4) / Number(virtualPrice).toFixed(4);
     i += 2;
   });
-  return { tvl };
+  return tvl;
 }, {
   maxAge: 15 * 60, // 15 min
 });
