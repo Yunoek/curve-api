@@ -619,4 +619,18 @@ module.exports = {
     symbol: 'BNB',
     decimals: 18,
   },
+  mim: {
+    id: 'mim',
+    coingeckoId: 'magic-internet-money',
+    symbol: 'mim',
+    decimals: 18,
+    address: '0x99d8a9c45b2eca8864373a26d1459e3dff1e17f3'
+  },
+  eurt: {
+    id: 'eurt',
+    coingeckoId: 'tether-eurt',
+    symbol: 'eurt',
+    decimals: 18,
+    address: '0xC581b735A1688071A1746c968e0798D642EDE491'
+  },
 };
