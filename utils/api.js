@@ -12,7 +12,6 @@ const formatJsonError = (err) => ({
 
 const addGeneratedTime = async (res) => ({
   ...await res,
-  generatedTimeMs: +Date.now(),
 });
 
 const fn = (cb, options = {}) => {
