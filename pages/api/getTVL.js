@@ -16,19 +16,23 @@ export default fn(async () => {
     if (pool.hasNoGauge) {
       return;
     }
-    const MINTER_CONTRACT = new Contract(pool.addresses.swap, ['function get_virtual_price() public view returns (uint256)']);
+    const MINTER_CONTRACT = new Contract(pool.addresses.swap, [
+      'function get_virtual_price() public view returns (uint256)',
+      'function decimals() public view returns (uint256)',
+    ]);
     poolsAddress.push(STACKER_CONTRACT.balanceOfPool(pool.addresses.gauge));
     poolsAddress.push(MINTER_CONTRACT.get_virtual_price());
+    poolsAddress.push(MINTER_CONTRACT.decimals());
   });
   const results = await ethcallProvider.all(poolsAddress);
   const tvl = {};
 
   let i = 0;
   pools.forEach((pool) => {
-    const balanceOf = ethers.utils.formatEther(results[i]);
+    const balanceOf = ethers.utils.formatUnits(results[i], results[i + 2]);
     const virtualPrice = ethers.utils.formatEther(results[i + 1]);
     tvl[pool.id] = Number(balanceOf).toFixed(4) / Number(virtualPrice).toFixed(4);
-    i += 2;
+    i += 3;
   });
   return tvl;
 }, {
