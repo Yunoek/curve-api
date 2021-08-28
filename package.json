@@ -11,6 +11,8 @@
     "axios": "^0.21.1",
     "big-number": "^2.0.0",
     "bignumber.js": "^9.0.1",
+    "ethers": "^5.4.6",
+    "ethers-multicall": "^0.2.1",
     "form-urlencoded": "^6.0.4",
     "graphql": "^15.5.1",
     "graphql-request": "^3.4.0",
