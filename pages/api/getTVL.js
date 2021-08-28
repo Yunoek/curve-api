@@ -18,11 +18,14 @@ export default fn(async () => {
     }
     const MINTER_CONTRACT = new Contract(pool.addresses.swap, [
       'function get_virtual_price() public view returns (uint256)',
+    ]);
+    const UNDERLYING_CONTRACT = new Contract(pool.addresses.underlying, [
       'function decimals() public view returns (uint256)',
     ]);
+
     poolsAddress.push(STACKER_CONTRACT.balanceOfPool(pool.addresses.gauge));
     poolsAddress.push(MINTER_CONTRACT.get_virtual_price());
-    poolsAddress.push(MINTER_CONTRACT.decimals());
+    poolsAddress.push(UNDERLYING_CONTRACT.decimals());
   });
   const results = await ethcallProvider.all(poolsAddress);
   const tvl = {};
