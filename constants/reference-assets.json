@@ -4,5 +4,6 @@
     "BTC": "btc",
     "ETH": "eth",
     "LINK": "link",
-    "SNX": "snx"
+    "SNX": "snx",
+    "CRYPTO": "crypto"
 }
