@@ -1,13 +1,5 @@
 {
   "version": 2,
-  "env": {
-    "INFURA_API_KEY": "@infura-api-key"
-  },
-  "build": {
-    "env": {
-      "INFURA_API_KEY": "@infura-api-key"
-    }
-  },
   "headers": [
     {
       "source": "/(.*)",
