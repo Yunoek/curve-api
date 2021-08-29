@@ -1,13 +1,6 @@
-import axios from 'axios';
-import Web3 from 'web3';
 import {fn} from '../../utils/api';
-import aggregatorInterfaceABI from '../../constants/abis/aggregator.json';
-
-const web3 = new Web3(`https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`);
 
 export default fn(async () => {
-
-
 	let gauges = {
 		compound: {
 			swap: '0xA2B47E3D5c44877cca798226B7B8118F9BFb7A56',

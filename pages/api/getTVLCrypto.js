@@ -1,11 +1,5 @@
-import axios from 'axios';
 import Web3 from 'web3';
-import BigNumber from 'big-number';
-
 import {fn} from '../../utils/api';
-import {getRegistry, getMultiCall} from '../../utils/getters';
-import registryAbi from '../../constants/abis/registry.json';
-import multicallAbi from '../../constants/abis/multicall.json';
 import erc20Abi from '../../constants/abis/erc20.json';
 import cryptoPoolAbi from '../../constants/abis/crypto_pool.json';
 

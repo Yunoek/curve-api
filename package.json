@@ -4,7 +4,9 @@
   "scripts": {
     "d": "vercel dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "eslint . --ext .js",
+    "lintfix": "eslint . --ext .js --fix"
   },
   "dependencies": {
     "axios": "^0.21.1",

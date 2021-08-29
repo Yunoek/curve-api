@@ -1,12 +1,7 @@
 import Web3 from 'web3';
-import BigNumber from 'big-number';
 import {IS_DEV} from 'constants/AppConstants';
 
 import {fn} from '../../utils/api';
-import {getFactoryRegistry, getMultiCall} from '../../utils/getters';
-import registryAbi from '../../constants/abis/factory_registry.json';
-import multicallAbi from '../../constants/abis/multicall.json';
-import erc20Abi from '../../constants/abis/erc20.json';
 import factorypool3Abi from '../../constants/abis/factory_swap.json';
 
 const web3 = new Web3(`https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`);
@@ -15,11 +10,6 @@ const BASE_API_DOMAIN = IS_DEV ? 'http://localhost:3000' : 'https://api.curve.fi
 export default fn(async (query) => {
 	const version = query.version === '2' ? 2 : 1;
 	console.log({version});
-
-	let registryAddress = await getFactoryRegistry();
-	let multicallAddress = await getMultiCall();
-  	let registry = new web3.eth.Contract(registryAbi, registryAddress);
-  	let multicall = new web3.eth.Contract(multicallAbi, multicallAddress);
 
 	let res = await (await fetch(`${BASE_API_DOMAIN}/api/${version === 1 ? 'getFactoryPools' : 'getFactoryV2Pools'}`)).json();
 
@@ -40,7 +30,6 @@ export default fn(async (query) => {
 				vPriceOldFetch = 1 * (10 ** 18);
 				DAY_BLOCKS = 1;
 			}
-			const testPool = pool.address;
 			const eventName = 'TokenExchangeUnderlying';
 			const eventName2 = 'TokenExchange';
 

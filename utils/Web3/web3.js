@@ -3,80 +3,80 @@
 import Web3 from 'web3';
 import memoize from 'memoizee';
 import Multicall from 'constants/abis/multicall.json';
-import { RPC_URL, RPC_URL_BSC } from 'constants/Web3';
+import {RPC_URL} from 'constants/Web3';
 
 const web3 = new Web3(Web3?.givenProvider?.networkVersion === '1' ? Web3.givenProvider : RPC_URL);
 const MulticallContract = new web3.eth.Contract(Multicall, '0xeefBa1e63905eF1D7ACbA5a8513c70307C1cE441');
 
 // Contract instances cache store
-const getContractInstance = memoize((address, abi, account, library, chainId) => (
-  new library.eth.Contract(abi, address)
+const getContractInstance = memoize((address, abi, account, library) => (
+	new library.eth.Contract(abi, address)
 ));
 
 const getEncodedCalls = (callsConfig) => {
-  const defaultCallConfig = {
-    address: undefined,
-    abi: undefined,
-    methodName: undefined, // e.g. 'claimable_tokens'
-    params: [], // Array of params, if the method takes any
-    // Optional; any data to be passed alongside each call's results, for example to act as a marker
-    // to easily identify what the call's results reference
-    metaData: undefined,
-    web3Data: undefined, // { account, library, chainId }
-  };
+	const defaultCallConfig = {
+		address: undefined,
+		abi: undefined,
+		methodName: undefined, // e.g. 'claimable_tokens'
+		params: [], // Array of params, if the method takes any
+		// Optional; any data to be passed alongside each call's results, for example to act as a marker
+		// to easily identify what the call's results reference
+		metaData: undefined,
+		web3Data: undefined, // { account, library, chainId }
+	};
 
-  if (callsConfig.length === 0) return { calls: [], augmentedCallsConfig: [] };
+	if (callsConfig.length === 0) return {calls: [], augmentedCallsConfig: []};
 
-  const augmentedCallsConfig = callsConfig.map((config) => ({
-    ...defaultCallConfig,
-    ...config,
-  }));
+	const augmentedCallsConfig = callsConfig.map((config) => ({
+		...defaultCallConfig,
+		...config,
+	}));
 
-  // Validate configs
-  for (const config of augmentedCallsConfig) {
-    if (typeof config.address !== 'string') {
-      throw new Error('multiCall error: config parameter `address` expects a contract address');
-    }
+	// Validate configs
+	for (const config of augmentedCallsConfig) {
+		if (typeof config.address !== 'string') {
+			throw new Error('multiCall error: config parameter `address` expects a contract address');
+		}
 
-    if (!Array.isArray(config.abi)) {
-      throw new Error('multiCall error: config parameter `abi` expects an array');
-    }
+		if (!Array.isArray(config.abi)) {
+			throw new Error('multiCall error: config parameter `abi` expects an array');
+		}
 
-    if (typeof config.methodName !== 'string') {
-      throw new Error('multiCall error: config parameter `methodName` expects a contract method name');
-    }
+		if (typeof config.methodName !== 'string') {
+			throw new Error('multiCall error: config parameter `methodName` expects a contract method name');
+		}
 
-    if (typeof config.web3Data === 'undefined') {
-      throw new Error('multiCall error: config parameter `web3Data` is required');
-    }
-  }
+		if (typeof config.web3Data === 'undefined') {
+			throw new Error('multiCall error: config parameter `web3Data` is required');
+		}
+	}
 
-  const calls = augmentedCallsConfig.map(({
-    address,
-    abi,
-    methodName,
-    params,
-    web3Data: { account, library, chainId },
-  }) => [
-    address,
-    getContractInstance(address, abi, account, library, chainId).methods[methodName](...params).encodeABI(),
-  ]);
+	const calls = augmentedCallsConfig.map(({
+		address,
+		abi,
+		methodName,
+		params,
+		web3Data: {account, library, chainId},
+	}) => [
+		address,
+		getContractInstance(address, abi, account, library, chainId).methods[methodName](...params).encodeABI(),
+	]);
 
-  return { calls, augmentedCallsConfig };
+	return {calls, augmentedCallsConfig};
 };
 
-const getDecodedData = ({ augmentedCallsConfig, returnData, hasMetaData = false }) => (
-  returnData.map((hexData, i) => {
-    const { abi, methodName, metaData } = augmentedCallsConfig[i];
-    const outputSignature = abi.find(({ name }) => name === methodName).outputs;
+const getDecodedData = ({augmentedCallsConfig, returnData, hasMetaData = false}) => (
+	returnData.map((hexData, i) => {
+		const {abi, methodName, metaData} = augmentedCallsConfig[i];
+		const outputSignature = abi.find(({name}) => name === methodName).outputs;
 
-    const data = outputSignature.length > 1 ?
-      web3.eth.abi.decodeParameters(outputSignature.map(({ type }) => type), hexData) :
-      web3.eth.abi.decodeParameter(outputSignature[0].type, hexData);
+		const data = outputSignature.length > 1 ?
+			web3.eth.abi.decodeParameters(outputSignature.map(({type}) => type), hexData) :
+			web3.eth.abi.decodeParameter(outputSignature[0].type, hexData);
 
-    if (hasMetaData) return { data, metaData };
-    return data;
-  })
+		if (hasMetaData) return {data, metaData};
+		return data;
+	})
 );
 
 /**
@@ -86,60 +86,60 @@ const getDecodedData = ({ augmentedCallsConfig, returnData, hasMetaData = false 
  * If `metaData` is passed alongside any call, returns an array of objects of shape { data, metaData } instead.
  */
 const multiCall = async (callsConfig) => {
-  if (callsConfig.length === 0) return [];
+	if (callsConfig.length === 0) return [];
 
-  const { calls, augmentedCallsConfig } = getEncodedCalls(callsConfig);
-  const hasMetaData = augmentedCallsConfig.some(({ metaData }) => typeof metaData !== 'undefined');
+	const {calls, augmentedCallsConfig} = getEncodedCalls(callsConfig);
+	const hasMetaData = augmentedCallsConfig.some(({metaData}) => typeof metaData !== 'undefined');
 
-  const { web3Data: { account, library, chainId } } = augmentedCallsConfig[0];
-  const multicallContract = getContractInstance('0xeefBa1e63905eF1D7ACbA5a8513c70307C1cE441', Multicall, account, library, chainId);
-  const { returnData } = await multicallContract.methods.aggregate(calls).call();
+	const {web3Data: {account, library, chainId}} = augmentedCallsConfig[0];
+	const multicallContract = getContractInstance('0xeefBa1e63905eF1D7ACbA5a8513c70307C1cE441', Multicall, account, library, chainId);
+	const {returnData} = await multicallContract.methods.aggregate(calls).call();
 
-  return getDecodedData({ augmentedCallsConfig, returnData, hasMetaData });
+	return getDecodedData({augmentedCallsConfig, returnData, hasMetaData});
 };
 
 // Detect if wallet_addEthereumChain method is available on wallet provider
 const canAutomaticallyChangeNetwork = async () => {
-  const ERROR_CODE_METHOD_DOESNT_EXIST = -32601;
+	const ERROR_CODE_METHOD_DOESNT_EXIST = -32601;
 
-  try {
-    await window.ethereum.request({
-      method: 'wallet_addEthereumChain',
-      params: [],
-    });
-  } catch (err) {
-    if (err.code === ERROR_CODE_METHOD_DOESNT_EXIST) return false;
-  }
+	try {
+		await window.ethereum.request({
+			method: 'wallet_addEthereumChain',
+			params: [],
+		});
+	} catch (err) {
+		if (err.code === ERROR_CODE_METHOD_DOESNT_EXIST) return false;
+	}
 
-  return true;
+	return true;
 };
 
 const changeNetwork = async (config) => {
-  const returnValue = await window.ethereum.request({
-    method: 'wallet_addEthereumChain',
-    params: [{
-      chainId: `0x${config.networkId.toString(16)}`,
-      chainName: config.name,
-      nativeCurrency: {
-        name: config.nativeCurrency.symbol,
-        symbol: config.nativeCurrency.symbol,
-        decimals: config.nativeCurrency.decimals,
-      },
-      rpcUrls: [config.rpcUrl],
-    }],
-  });
+	const returnValue = await window.ethereum.request({
+		method: 'wallet_addEthereumChain',
+		params: [{
+			chainId: `0x${config.networkId.toString(16)}`,
+			chainName: config.name,
+			nativeCurrency: {
+				name: config.nativeCurrency.symbol,
+				symbol: config.nativeCurrency.symbol,
+				decimals: config.nativeCurrency.decimals,
+			},
+			rpcUrls: [config.rpcUrl],
+		}],
+	});
 
-  const isSuccess = returnValue === null;
-  return isSuccess;
+	const isSuccess = returnValue === null;
+	return isSuccess;
 };
 
 export default web3;
 export {
-  MulticallContract,
-  multiCall,
-  getEncodedCalls,
-  getDecodedData,
-  getContractInstance,
-  canAutomaticallyChangeNetwork,
-  changeNetwork,
+	MulticallContract,
+	multiCall,
+	getEncodedCalls,
+	getDecodedData,
+	getContractInstance,
+	canAutomaticallyChangeNetwork,
+	changeNetwork,
 };

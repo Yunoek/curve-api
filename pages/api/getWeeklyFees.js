@@ -1,6 +1,4 @@
-import axios from 'axios';
 import Web3 from 'web3';
-import BigNumber from 'big-number';
 import {fn} from '../../utils/api';
 import {getFeeDistributor} from '../../utils/getters';
 import {getThursdayUTCTimestamp} from '../../utils/helpers';
