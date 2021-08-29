@@ -61,8 +61,27 @@ async function	getConvex() {
 				cvxToken: allPools[index][1],
 				crvRewards: allPools[index][3],
 			};
+
+			const	extraRewardsLength = new ethers.Contract(allPools[index][3], [
+				'function extraRewardsLength() public view returns (uint256)'
+			], provider);
+			const	numberOfExtraRewards = Number(await extraRewardsLength.extraRewardsLength());
+			if (numberOfExtraRewards > 0) {
+				const	extraRewardsMulti = new Contract(allPools[index][3], [
+					'function extraRewards(uint256) public view returns (address)'
+				]);
+				const	ethcallProviderExtraRewards = new Provider(provider);
+				const	ethcallProviderExtraRewardsCalls = [];
+				for (let i = 0; i < numberOfExtraRewards; i++) {
+					ethcallProviderExtraRewardsCalls.push(extraRewardsMulti.extraRewards(i));
+				}
+				await	ethcallProviderExtraRewards.init();
+				convexAddress[poolId].extraRewards = await ethcallProvider.all(ethcallProviderExtraRewardsCalls);
+			}
+
 		}
 	}
+	
 	return convexAddress;
 }
 
