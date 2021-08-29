@@ -130,7 +130,7 @@ export default fn(async ({address}) => {
 		getConvex()
 	]);
 
-	return arrayToHashmap(pools.map((pool, index) => [pool.id, {
+	return {pools: arrayToHashmap(pools.map((pool, index) => [pool.id, {
 		id: pool.id,
 		name: pool.name,
 		addresses: {
@@ -153,5 +153,5 @@ export default fn(async ({address}) => {
 			apy: additionalRewards[key || name]?.rewards,
 		})),
 		crvPrice,
-	}]));
+	}]))};
 }, {maxAge: 10 * 60});
