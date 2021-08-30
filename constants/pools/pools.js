@@ -15,7 +15,7 @@ module.exports = [
 			symbol: 'cCrv',
 		},
 		coingeckoInfo: {
-			id: 'compound',
+			id: 'compound-governance-token',
 			symbol: 'COMP',
 		},
 		assets: 'cDAI+cUSDC',
@@ -318,6 +318,10 @@ module.exports = [
 		lpTokenInfo: {
 			name: '3poolCurve',
 			symbol: '3poolCrv',
+		},
+		coingeckoInfo: {
+			id: 'dai',
+			symbol: '3Pool',
 		},
 		assets: 'DAI+USDC+USDT',
 		coins: [
@@ -1085,6 +1089,10 @@ module.exports = [
 			name: 'tusdCurve',
 			symbol: 'tusdCrv',
 		},
+		coingeckoInfo: {
+			id: 'true-usd',
+			symbol: 'tUSDT',
+		},
 		assets: 'tusd+3pool',
 		isMetaPool: true,
 		coins: [
@@ -1345,6 +1353,10 @@ module.exports = [
 		lpTokenInfo: {
 			name: 'mimCurve',
 			symbol: 'mimCrv',
+		},
+		coingeckoInfo: {
+			id: 'magic-internet-money',
+			symbol: 'MIM',
 		},
 		assets: 'mim+3pool',
 		isMetaPool: true,

@@ -134,6 +134,7 @@ async function getTVL() {
 	});
 	const results = await ethcallProvider.all(poolsAddress);
 	const tvl = {};
+	const vsPrices = {};
 
 	let i = 0;
 	pools.forEach((pool) => {
@@ -152,9 +153,10 @@ async function getTVL() {
 			vsPrice = triCryptoPrice;
 		}
 		tvl[pool.id] = Number(balanceOf).toFixed(4) * Number(virtualPrice).toFixed(4) * vsPrice;
+		vsPrices[pool.id] = vsPrice;
 		i += 2;
 	});
-	return tvl;
+	return {tvl, vsPrices};
 }
 
 export default fn(async ({address}) => {
@@ -162,7 +164,7 @@ export default fn(async ({address}) => {
 		additionalRewards,
 		{weeklyApy: baseApys},
 		{CRVAPYs: crvApys, boosts, CRVprice: crvPrice},
-		TVL,
+		{tvl, vsPrices},
 		convex
 	] = await Promise.all([
 		getCurveRewards(),
@@ -175,6 +177,7 @@ export default fn(async ({address}) => {
 	return {pools: arrayToHashmap(pools.map((pool, index) => [pool.id, {
 		id: pool.id,
 		name: pool.name,
+		cgID: pool.coingeckoInfo?.id,
 		addresses: {
 			underlying: pool.addresses.underlying,
 			swap: pool.addresses.swap,
@@ -187,7 +190,8 @@ export default fn(async ({address}) => {
 		baseApy: baseApys[index],
 		crvApy: crvApys[pool.id],
 		crvBoost: boosts[pool.id],
-		tvl: TVL[pool.id],
+		tvl: tvl[pool.id],
+		price: vsPrices[pool.id],
 		additionalRewards: pool.additionalRewards.map(({key, name, rewardTokenAddress, rewardTokenDecimals, convexRewarder}) => ({
 			name,
 			address: rewardTokenAddress,
