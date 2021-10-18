@@ -15,8 +15,8 @@ module.exports = [
 			symbol: 'cCrv',
 		},
 		coingeckoInfo: {
-			id: 'compound-governance-token',
-			symbol: 'COMP',
+			id: 'cdai',
+			symbol: 'cDai',
 		},
 		assets: 'cDAI+cUSDC',
 		coins: [
@@ -123,8 +123,8 @@ module.exports = [
 			symbol: 'yCrv',
 		},
 		coingeckoInfo: {
-			id: 'yearn-finance',
-			symbol: 'YFI',
+			id: 'dai',
+			symbol: 'Dai',
 		},
 		assets: 'yDAI+yUSDC+yUSDT+yTUSD',
 		coins: [
