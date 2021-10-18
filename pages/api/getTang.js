@@ -117,7 +117,7 @@ async function	getTangAndConvex() {
 			tangAddress[poolId] = {
 				...tangAddress[poolId],
 				tangToken: tangPools[index][1],
-				crvRewards: tangPools[index][3],
+				tangRewards: tangPools[index][3],
 			};
 		}
 	}
@@ -128,7 +128,7 @@ async function	getTangAndConvex() {
 			tangAddress[poolId] = {
 				...tangAddress[poolId],
 				cvxToken: cvxPools[index][1],
-				crvRewards: tangAddress[poolId]?.crvRewards || cvxPools[index][3],
+				cvxRewards: cvxPools[index][3],
 			};
 		}
 	}
