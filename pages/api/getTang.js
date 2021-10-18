@@ -12,6 +12,7 @@ import axios from 'axios';
 const STACKER = '0x989AEb4d175e16225E39E87d0D97A3360524AD80';
 const LENS = '0x83d95e0D5f402511dB06817Aff3f9eA88224B030'; // to get 3crypto price
 const CONVEX_BOOSTER = '0xF403C135812408BFbE8713b5A23a04b3D48AAE31';
+const TANG_BOOSTER = '0xF403C135812408BFbE8713b5A23a04b3D48AAE31';
 
 // async function checkConvexPoolsRewards() {
 // 	const	extraRewardsLength = new ethers.Contract(allPools[index][3], [
@@ -53,7 +54,7 @@ const CONVEX_BOOSTER = '0xF403C135812408BFbE8713b5A23a04b3D48AAE31';
 // }
 
 
-async function	getConvex() {
+async function	getTangAndConvex() {
 	const provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_API_KEY);
 
 	/**********************************************************************
@@ -64,12 +65,18 @@ async function	getConvex() {
 	**	We will need first to get the number of pools to then prepare a
 	**	multicall to get the info of each pool.
 	**********************************************************************/
-	const	convexBoosterContract = new ethers.Contract(CONVEX_BOOSTER, [
-		'function poolLength() public view returns (uint256)'
-	], provider);
-	const	convexBoosterContractMulti = new Contract(CONVEX_BOOSTER, [
-		'function poolInfo(uint256) public view returns (address, address, address, address, address, bool)'
-	]);
+	const	convexBoosterContract = new ethers.Contract(CONVEX_BOOSTER, ['function poolLength() public view returns (uint256)'], provider);
+	const	convexBoosterContractMulti = new Contract(CONVEX_BOOSTER, ['function poolInfo(uint256) public view returns (address, address, address, address, address, bool)']);
+
+	/**********************************************************************
+	**	Then we need to do the same with the Tang Booster contract.
+	**	The address is 0x000000000.
+	**
+	**	We will need first to get the number of pools to then prepare a
+	**	multicall to get the info of each pool.
+	**********************************************************************/
+	const	tangBoosterContract = new ethers.Contract(TANG_BOOSTER, ['function poolLength() public view returns (uint256)'], provider);
+	const	tangBoosterContractMulti = new Contract(TANG_BOOSTER, ['function poolInfo(uint256) public view returns (address, address, address, address, address, bool)']);
 
 	/**********************************************************************
 	**	Once we have the number of pools, we can get the info of each pool
@@ -84,28 +91,49 @@ async function	getConvex() {
 	**		bool shutdown,
 	**	]
 	**********************************************************************/
-	const	poolLength = Number(await convexBoosterContract.poolLength());
+	const	tangPoolLength = Number(await tangBoosterContract.poolLength());
+	const	cvxPoolLength = Number(await convexBoosterContract.poolLength());
 	const	ethcallProvider = new Provider(provider);
 	const	preparedCall = [];
-	for (let index = 0; index < poolLength; index++) {
+
+	for (let index = 0; index < tangPoolLength; index++) {
+		preparedCall.push(tangBoosterContractMulti.poolInfo(index));
+	}
+	for (let index = 0; index < cvxPoolLength; index++) {
 		preparedCall.push(convexBoosterContractMulti.poolInfo(index));
 	}
 	await	ethcallProvider.init();
 	const	allPools = await ethcallProvider.all(preparedCall);
+	const	tangPools = allPools.slice(0, tangPoolLength);
+	const	cvxPools = allPools.slice(tangPoolLength, tangPoolLength + cvxPoolLength);
 
-	const	convexAddress = {};
-	for (let index = 0; index < allPools.length; index++) {
-		const	poolId = pools.find(e => (e.addresses?.lpToken).toLowerCase() === (allPools[index][0]).toLowerCase())?.id;
+	/**********************************************************************
+	**	Finally, we can populate the tangAddress object
+	**********************************************************************/
+	const	tangAddress = {};
+	for (let index = 0; index < tangPools.length; index++) {
+		const	poolId = pools.find(e => (e.addresses?.lpToken).toLowerCase() === (tangPools[index][0]).toLowerCase())?.id;
 		if (poolId) {
-			convexAddress[poolId] = {
-				cvxToken: allPools[index][1],
-				crvRewards: allPools[index][3],
+			tangAddress[poolId] = {
+				...tangAddress[poolId],
+				tangToken: tangPools[index][1],
+				crvRewards: tangPools[index][3],
 			};
-			// checkConvexPoolsRewards();
+		}
+	}
+
+	for (let index = 0; index < cvxPools.length; index++) {
+		const	poolId = pools.find(e => (e.addresses?.lpToken).toLowerCase() === (cvxPools[index][0]).toLowerCase())?.id;
+		if (poolId) {
+			tangAddress[poolId] = {
+				...tangAddress[poolId],
+				cvxToken: cvxPools[index][1],
+				crvRewards: tangAddress[poolId]?.crvRewards || cvxPools[index][3],
+			};
 		}
 	}
 	
-	return convexAddress;
+	return tangAddress;
 }
 
 async function getTVL() {
@@ -165,13 +193,13 @@ export default fn(async ({address}) => {
 		{weeklyApy: baseApys},
 		{CRVAPYs: crvApys, boosts, CRVprice: crvPrice},
 		{tvl, vsPrices},
-		convex
+		tangAndConvex,
 	] = await Promise.all([
 		getCurveRewards(),
 		getAPY(),
 		getCRVAPY(address || '0x0000000000000000000000000000000000000000'),
 		getTVL(),
-		getConvex()
+		getTangAndConvex(),
 	]);
 
 	return {pools: arrayToHashmap(pools.map((pool, index) => [pool.id, {
@@ -185,7 +213,7 @@ export default fn(async ({address}) => {
 			gauge: pool.addresses.gauge,
 			deposit: pool.addresses.deposit,
 			migrator: pool.addresses.migrator,
-			convex: convex?.[pool.id] || {}
+			tang: tangAndConvex?.[pool.id] || {},
 		},
 		baseApy: baseApys[index],
 		crvApy: crvApys[pool.id],
