@@ -15,8 +15,8 @@ module.exports = [
 			symbol: 'cCrv',
 		},
 		coingeckoInfo: {
-			id: 'cdai',
-			symbol: 'cDai',
+			id: 'dai',
+			symbol: 'Dai',
 		},
 		assets: 'cDAI+cUSDC',
 		coins: [
