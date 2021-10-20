@@ -3,6 +3,32 @@ const coins = require('../coins');
 
 module.exports = [
 	{
+		dataIndex: -1,
+		id: 'tangcrv',
+		name: 'TangCRV',
+		lpTokenInfo: {
+			name: 'cCurve',
+			symbol: 'cCrv',
+		},
+		coingeckoInfo: {
+			id: 'dai',
+			symbol: 'Dai',
+		},
+		assets: 'crv+cvx',
+		coins: [
+			coins.crv,
+			coins.cvx,
+		],
+		addresses: {
+			underlying: '0x8FDF7cabfEc73d5FfD1447867834b4cf39B745B7',
+			swap: '0x9D0464996170c6B9e75eED71c68B99dDEDf279e8',
+			lpToken: '0x9D0464996170c6B9e75eED71c68B99dDEDf279e8',
+			gauge: '0x903dA6213a5A12B61c821598154EfAd98C3B20E4',
+			deposit: '0xF403C135812408BFbE8713b5A23a04b3D48AAE31',
+		},
+		isFactory: true,
+		hasAMultiplier: false,
+	}, {
 		dataIndex: 0,
 		id: 'compound',
 		name: 'Compound',

@@ -599,6 +599,14 @@ module.exports = {
 		address: '0xd533a949740bb3306d119cc777fa900ba034cd52',
 		contractKey: 'Crv',
 	},
+	cvx: {
+		id: 'cvx',
+		coingeckoId: 'convex-finance',
+		symbol: 'CVX',
+		decimals: 18,
+		address: '0x62B9c7356A2Dc64a1969e19C23e4f579F9810Aa7',
+		contractKey: 'Cvx',
+	},
 	sushi: {
 		id: 'sushi',
 		coingeckoId: 'sushi',

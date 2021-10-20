@@ -24,9 +24,10 @@ const toStatsKeyResolver = (normalizedKey) => {
 };
 
 const getAPY = memoize(async () => {
-	const [stablePoolStats, cryptoPoolStats] = await Promise.all([
+	const [stablePoolStats, cryptoPoolStats, factoriesStats] = await Promise.all([
 		(await fetch('https://stats.curve.fi/raw-stats/apys.json')).json(),
 		(await fetch('https://stats.curve.fi/raw-stats-crypto/apys.json')).json(),
+		(await fetch('https://api.curve.fi/api/getFactoryAPYs?version=2')).json(),
 	]);
 	const volumes = initialVolumesValues;
 
@@ -52,12 +53,22 @@ const getAPY = memoize(async () => {
 	poolIds.forEach((poolId) => {
 		const pool = pools.getById(poolId);
 		const statsKey = toStatsKeyResolver(poolId);
-		const stats = pool.cryptoPool ? cryptoPoolStats : stablePoolStats;
+		if (pool.isFactory) {
+			const stats = factoriesStats?.data?.poolDetails;
+			const factory = stats.find(e => e.poolAddress === pool.addresses.swap);
 
-		dailyApy.push((((stats.apy.day[statsKey] > 0) ? stats.apy.day[statsKey] : 0) * 100).toFixed(2));
-		weeklyApy.push((stats.apy.week[statsKey] * 100).toFixed(2));
-		monthlyApy.push((stats.apy.month[statsKey] * 100).toFixed(2));
-		apy.push((stats.apy.total[statsKey] * 100).toFixed(2));
+			dailyApy.push((factory.apy).toFixed(2));
+			weeklyApy.push((factory.apy).toFixed(2));
+			monthlyApy.push((factory.apy).toFixed(2));
+			apy.push((factory.apy).toFixed(2));
+		} else {
+			const stats = pool.cryptoPool ? cryptoPoolStats : stablePoolStats;
+
+			dailyApy.push((((stats.apy.day[statsKey] > 0) ? stats.apy.day[statsKey] : 0) * 100).toFixed(2));
+			weeklyApy.push((stats.apy.week[statsKey] * 100).toFixed(2));
+			monthlyApy.push((stats.apy.month[statsKey] * 100).toFixed(2));
+			apy.push((stats.apy.total[statsKey] * 100).toFixed(2));
+		}
 	});
 
 	return {

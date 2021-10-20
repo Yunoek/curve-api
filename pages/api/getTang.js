@@ -14,46 +14,6 @@ const LENS = '0x83d95e0D5f402511dB06817Aff3f9eA88224B030'; // to get 3crypto pri
 const CONVEX_BOOSTER = '0xF403C135812408BFbE8713b5A23a04b3D48AAE31';
 const TANG_BOOSTER = '0xF403C135812408BFbE8713b5A23a04b3D48AAE31';
 
-// async function checkConvexPoolsRewards() {
-// 	const	extraRewardsLength = new ethers.Contract(allPools[index][3], [
-// 		'function extraRewardsLength() public view returns (uint256)'
-// 	], provider);
-// 	const	numberOfExtraRewards = Number(await extraRewardsLength.extraRewardsLength());
-// 	if (numberOfExtraRewards > 0) {
-// 		const	extraRewardsMulti = new Contract(allPools[index][3], [
-// 			'function extraRewards(uint256) public view returns (address)'
-// 		]);
-// 		const	ethcallProviderExtraRewards = new Provider(provider);
-// 		const	ethcallProviderExtraRewardsCalls = [];
-// 		for (let i = 0; i < numberOfExtraRewards; i++) {
-// 			ethcallProviderExtraRewardsCalls.push(extraRewardsMulti.extraRewards(i));
-// 		}
-// 		await	ethcallProviderExtraRewards.init();
-// 		const	extraRewarders = await ethcallProvider.all(ethcallProviderExtraRewardsCalls);
-// 		// convexAddress[poolId].extraRewards = await ethcallProvider.all(preparedCall);
-
-// 		const	listOfUnderlyingCalls = [];
-// 		const	extraRewardersUnderlying = new Provider(provider);
-// 		for (let i = 0; i < extraRewarders.length; i++) {
-// 			const	contract = new Contract(extraRewarders[i], [
-// 				'function rewardToken() public view returns (address)',
-// 			]);
-// 			listOfUnderlyingCalls.push(contract.rewardToken());
-// 		}
-// 		await	extraRewardersUnderlying.init();
-// 		const	listOfUnderlying = await extraRewardersUnderlying.all(listOfUnderlyingCalls);
-
-// 		convexAddress[poolId].extraRewards = [];
-// 		for (let i = 0; i < extraRewarders.length; i++) {
-// 			convexAddress[poolId].extraRewards.push({
-// 				underlying: listOfUnderlying[i],
-// 				rewarder: extraRewarders[i],
-// 			});
-// 		}
-// 	}
-// }
-
-
 async function	getTangAndConvex() {
 	const provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_API_KEY);
 
