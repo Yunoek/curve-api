@@ -236,7 +236,7 @@ module.exports = [
 		coingeckoInfo: {
 			id: 'renbtc',
 			symbol: 'RENBTC',
-			referenceAssetId: 'bitcoin',
+			referenceAssetId: 'btc',
 		},
 		assets: 'renBTC+wBTC',
 		coins: [
@@ -263,7 +263,7 @@ module.exports = [
 		coingeckoInfo: {
 			id: 'sbtc',
 			symbol: 'SBTC',
-			referenceAssetId: 'bitcoin',
+			referenceAssetId: 'btc',
 		},
 		assets: 'renBTC+wBTC+sBTC',
 		coins: [
@@ -296,7 +296,7 @@ module.exports = [
 		coingeckoInfo: {
 			id: 'huobi-btc',
 			symbol: 'HBTC',
-			referenceAssetId: 'bitcoin',
+			referenceAssetId: 'btc',
 		},
 		assets: 'hBTC+wBTC',
 		coins: [
@@ -571,7 +571,7 @@ module.exports = [
 		coingeckoInfo: {
 			id: 'tbtc',
 			symbol: 'TBTC',
-			referenceAssetId: 'bitcoin',
+			referenceAssetId: 'btc',
 		},
 		assets: 'tbtc+sbtcCrv',
 		isMetaPool: true,
@@ -645,7 +645,7 @@ module.exports = [
 		coingeckoInfo: {
 			id: 'ptokens-btc',
 			symbol: 'PBTC',
-			referenceAssetId: 'bitcoin',
+			referenceAssetId: 'btc',
 		},
 		assets: 'pbtc+sbtcCrv',
 		isMetaPool: true,
@@ -686,7 +686,7 @@ module.exports = [
 		coingeckoInfo: {
 			id: 'binance-wrapped-btc',
 			symbol: 'BBTC',
-			referenceAssetId: 'bitcoin',
+			referenceAssetId: 'btc',
 		},
 		assets: 'bbtc+sbtcCrv',
 		isMetaPool: true,
@@ -719,7 +719,7 @@ module.exports = [
 		coingeckoInfo: {
 			id: 'boringdao-btc',
 			symbol: 'OBTC',
-			referenceAssetId: 'bitcoin',
+			referenceAssetId: 'btc',
 		},
 		assets: 'obtc+sbtcCrv',
 		isMetaPool: true,
@@ -823,7 +823,7 @@ module.exports = [
 		coingeckoInfo: {
 			id: 'seth',
 			symbol: 'SETH',
-			referenceAssetId: 'ethereum',
+			referenceAssetId: 'eth',
 		},
 		assets: 'eth+seth',
 		coins: [
@@ -889,7 +889,7 @@ module.exports = [
 		coingeckoInfo: {
 			id: 'staked-ether',
 			symbol: 'STETH',
-			referenceAssetId: 'ethereum',
+			referenceAssetId: 'eth',
 		},
 		assets: 'eth+steth',
 		coins: [
@@ -962,7 +962,7 @@ module.exports = [
 		coingeckoInfo: {
 			id: 'ankreth',
 			symbol: 'AETH',
-			referenceAssetId: 'ethereum',
+			referenceAssetId: 'eth',
 		},
 		assets: 'eth+ankreth',
 		coins: [
@@ -1066,7 +1066,7 @@ module.exports = [
 		coingeckoInfo: {
 			id: 'chainlink',
 			symbol: 'LINK',
-			referenceAssetId: 'chainlink',
+			referenceAssetId: 'link',
 		},
 		referenceAsset: REFERENCE_ASSETS.LINK,
 		assets: 'LINK+sLINK',
@@ -1231,7 +1231,7 @@ module.exports = [
 		coingeckoInfo: {
 			id: 'reth',
 			symbol: 'RETH',
-			referenceAssetId: 'ethereum',
+			referenceAssetId: 'eth',
 		},
 		assets: 'eth+reth',
 		coins: [
