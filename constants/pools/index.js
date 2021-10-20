@@ -15,7 +15,7 @@ const defaultPoolTemplate = {
 	coingeckoInfo: {
 		id: undefined, // Must be defined
 		symbol: undefined, // Must be defined
-		referenceAssetId: 'dollar',
+		referenceAssetId: 'usd',
 	},
 	assets: undefined,
 	coins: undefined,
