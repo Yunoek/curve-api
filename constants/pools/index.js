@@ -16,6 +16,7 @@ const defaultPoolTemplate = {
 		id: undefined, // Must be defined
 		symbol: undefined, // Must be defined
 		referenceAssetId: 'usd',
+		referenceVsId: 'usd',
 	},
 	assets: undefined,
 	coins: undefined,
