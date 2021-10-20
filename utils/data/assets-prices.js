@@ -3,11 +3,11 @@ import Request from 'utils/Request';
 import {arrayToHashmap} from 'utils/Array';
 
 const getAssetsPrices = memoize((assetCoingeckoIds) => (
-	Request.get(`https://api.coingecko.com/api/v3/simple/price?vs_currencies=usd&ids=${assetCoingeckoIds.join(',')}`)
+	Request.get(`https://api.coingecko.com/api/v3/simple/price?vs_currencies=${assetCoingeckoIds.join(',')}`)
 		.then((response) => response.json())
 		.then((prices) => arrayToHashmap(assetCoingeckoIds.map((id) => [
 			id,
-			id === 'dollar' ? 1 : prices[id]?.usd,
+			prices[id]?.usd,
 		])))
 ), {
 	promise: true,
