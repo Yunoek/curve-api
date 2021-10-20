@@ -32,6 +32,7 @@ const getCRVAPY = memoize(async (userAddress) => {
 	const aggVirtualPrices = await MulticallContract.methods.aggregate(virtualPriceCalls).call();
 	const decodedVirtualPrices = aggVirtualPrices[1].map((hex, i) => [virtualPriceCalls[i][0], web3.eth.abi.decodeParameter('uint256', hex) / 1e18]);
 	const CRVAPYs = {};
+	const CRVRate = {};
 
 	let i = 0;
 	for (const w of decodedWeights) {
@@ -47,6 +48,7 @@ const getCRVAPY = memoize(async (userAddress) => {
 		if (isNaN(apy)) apy = 0;
 
 		CRVAPYs[poolId] = apy;
+		CRVRate[poolId] = rate;
 
 		i += 1;
 	}
@@ -80,12 +82,14 @@ const getCRVAPY = memoize(async (userAddress) => {
 
 			boosts[pool.id] = gaugeBoost.workingBalance / (0.4 * gaugeBoost.originalBalance);
 			CRVAPYs[pool.id] *= boosts[pool.id];
+			CRVRate[pool.id] *= boosts[pool.id];
 		}
 	}
 
 	return {
 		CRVprice,
 		CRVAPYs,
+		CRVRate,
 		boosts,
 	};
 }, {

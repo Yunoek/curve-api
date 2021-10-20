@@ -191,7 +191,7 @@ export default fn(async ({address}) => {
 	const [
 		additionalRewards,
 		{weeklyApy: baseApys},
-		{CRVAPYs: crvApys, boosts, CRVprice: crvPrice},
+		{CRVAPYs: crvApys, boosts, CRVprice: crvPrice, CRVRate: crvRate},
 		{tvl, vsPrices},
 		tangAndConvex,
 	] = await Promise.all([
@@ -217,6 +217,7 @@ export default fn(async ({address}) => {
 		},
 		baseApy: baseApys[index],
 		crvApy: crvApys[pool.id],
+		crvRate: crvRate[pool.id],
 		crvBoost: boosts[pool.id],
 		tvl: tvl[pool.id],
 		price: vsPrices[pool.id],
