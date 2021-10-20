@@ -227,6 +227,7 @@ export default fn(async ({address}) => {
 			decimals: rewardTokenDecimals,
 			apy: additionalRewards[key || name]?.rewards,
 		})),
+		counterTokenID: pool.coingeckoInfo?.referenceAssetId || 'usd',
 		crvPrice,
 	}]))};
 }, {maxAge: 10 * 60});
