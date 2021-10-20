@@ -791,7 +791,7 @@ module.exports = [
 		coingeckoInfo: {
 			id: 'stasis-eurs',
 			symbol: 'EURS',
-			referenceAssetId: 'stasis-eurs', // Using stasis-eurs as the oracle for EUR/USD
+			referenceAssetId: 'eur', // Using stasis-eurs as the oracle for EUR/USD
 		},
 		assets: 'eurs+seur',
 		coins: [
@@ -1397,7 +1397,7 @@ module.exports = [
 		coingeckoInfo: {
 			id: 'tether-eurt',
 			symbol: 'EURT',
-			referenceAssetId: 'stasis-eurs',
+			referenceAssetId: 'eur',
 		},
 		assets: 'eurt+seur',
 		coins: [
