@@ -151,7 +151,7 @@ export default fn(async ({address}) => {
 	const [
 		additionalRewards,
 		{weeklyApy: baseApys},
-		{CRVAPYs: crvApys, boosts, CRVprice: crvPrice, CRVRate: crvRate, CRVAPYsBase: crvApysBase, TANGAPY: tangApy},
+		{CRVAPYs: crvApys, boosts, CRVprice: crvPrice, CRVRate: crvRate, CRVAPYsBase: crvApysBase, TANGAPY: tangApy, ExtraAPYs: extraApy},
 		{tvl, vsPrices},
 		tangAndConvex,
 	] = await Promise.all([
@@ -181,6 +181,7 @@ export default fn(async ({address}) => {
 		crvRate: crvRate[pool.id],
 		crvBoost: boosts[pool.id],
 		tangApy: tangApy[pool.id],
+		extraApy: extraApy[pool.id],
 		tvl: tvl[pool.id],
 		price: vsPrices[pool.id],
 		additionalRewards: pool.additionalRewards.map(({key, name, rewardTokenAddress, rewardTokenDecimals, convexRewarder}) => ({

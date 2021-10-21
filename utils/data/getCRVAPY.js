@@ -19,6 +19,11 @@ async function	getTangPrices(assetCoingeckoIds, vs_currencies) {
 	const	json = await response.json();
 	return json;
 }
+async function	getMainPoolsGaugeRewards() {
+	const	response = await Request.get('https://api.curve.fi/api/getMainPoolsGaugeRewards');
+	const	json = await response.json();
+	return json?.data?.mainPoolsGaugeRewards || {};
+}
 
 function	getCVXMintAmount(crvEarned, tangSupply) {
 	const	cliffSize = 100000; //* 1e18; //new cliff every 100,000 tokens
@@ -41,6 +46,8 @@ function	getCVXMintAmount(crvEarned, tangSupply) {
 
 
 const getCRVAPY = memoize(async (userAddress) => {
+	const	mainPoolsGaugeRewards = await getMainPoolsGaugeRewards();
+	// console.log(mainPoolsGaugeRewards);
 	const	GAUGE_CONTROLLER_ADDRESS = '0x2F50D538606Fa9EDD2B11E2446BEb18C9D5846bB';
 	const	prices = await getAssetsPrices(['curve-dao-token', 'convex-crv', 'convex-finance', 'bitcoin', 'stasis-eurs', 'ethereum', 'chainlink']);
 	const	tangPrices = await getTangPrices(['convex-finance'], ['usd','eur','btc','eth','link']);
@@ -48,6 +55,7 @@ const getCRVAPY = memoize(async (userAddress) => {
 	const	CRVAPYs = {};
 	const	CRVRate = {};
 	const	TANGAPY = {};
+	const	ExtraAPYs = {};
 	const	poolsLen = poolIds.length;
 	prices.dollar = 1;
 
@@ -89,6 +97,28 @@ const getCRVAPY = memoize(async (userAddress) => {
 		CRVAPYsBase[pool.id] = apy;
 		CRVRate[pool.id] = rate;
 		TANGAPY[pool.id] = (getCVXMintAmount(rate, tangSupply) * refAssetPrice * 100); //TANGPRICE VS BASECURRENCY
+		ExtraAPYs[pool.id] = 0;
+		// pool.addresses?.gauge
+		const	extraRewards = mainPoolsGaugeRewards[pool.addresses?.gauge.toLowerCase()];
+		extraRewards.forEach((reward) => {
+			ExtraAPYs[pool.id] += reward.apy;
+		});
+
+		// if (pool.additionalRewards.length > 0) {
+		// 	pool.additionalRewards.forEach(async (each) => {
+		// 		const contractToken = new ethers.Contract(each.convexRewarder, [{'inputs':[],'name':'totalSupply','outputs':[{'internalType':'uint256','name':'','type':'uint256'}],'stateMutability':'view','type':'function'}], ethersProvider);
+		// 		const contractRewarder = new ethers.Contract(each.convexRewarder, [{'inputs':[],'name':'rewardRate','outputs':[{'internalType':'uint256','name':'','type':'uint256'}],'stateMutability':'view','type':'function'},{'inputs':[],'name':'rewardPerToken','outputs':[{'internalType':'uint256','name':'','type':'uint256'}],'stateMutability':'view','type':'function'}], ethersProvider);
+
+		// 		const	supply = await contractToken.totalSupply();
+		// 		const	exrate = await contractRewarder.rewardRate();
+		// 		const	rewardPerToken = ethers.utils.formatEther(await contractRewarder.rewardPerToken());
+
+		// 		const perUnderlying = exrate / supply;
+		// 		const perYear = perUnderlying * 86400 * 365;
+		// 		console.log(perYear * 0.01980515 * 100);
+		// 		console.log(830 * Number(1) * 0.01980515);
+		// 	});
+		// }
 		callResultIndex += 4;
 	}
 
@@ -130,6 +160,7 @@ const getCRVAPY = memoize(async (userAddress) => {
 		CRVAPYs,
 		CRVAPYsBase,
 		TANGAPY,
+		ExtraAPYs,
 		CRVRate,
 		boosts,
 	};
