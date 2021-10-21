@@ -100,7 +100,7 @@ const getCRVAPY = memoize(async (userAddress) => {
 		ExtraAPYs[pool.id] = 0;
 		// pool.addresses?.gauge
 		const	extraRewards = mainPoolsGaugeRewards[pool.addresses?.gauge.toLowerCase()];
-		extraRewards.forEach((reward) => {
+		extraRewards?.forEach((reward) => {
 			ExtraAPYs[pool.id] += reward.apy;
 		});
 
