@@ -25,6 +25,15 @@ async function	getMainPoolsGaugeRewards() {
 	return json?.data?.mainPoolsGaugeRewards || {};
 }
 
+async function	getTriCryptoPrice() {
+	const LENS = '0x83d95e0D5f402511dB06817Aff3f9eA88224B030'; // to get 3crypto price
+	const LP_TOKEN = '0xcA3d75aC011BF5aD07a98d02f18225F9bD9A6BDF';
+	const magicContract = new ethers.Contract(LENS, ['function getNormalizedValueUsdc(address, uint256) public view returns (uint256)'], ethersProvider);
+	const priceUSDC = await magicContract.getNormalizedValueUsdc(LP_TOKEN, '1000000000000000000');
+	const triCryptoPrice = ethers.utils.formatUnits(priceUSDC, 6);
+	return triCryptoPrice;
+}
+
 function	getCVXMintAmount(crvEarned, tangSupply) {
 	const	cliffSize = 100000; //* 1e18; //new cliff every 100,000 tokens
 	const	cliffCount = 1000; // 1,000 cliffs
@@ -44,13 +53,17 @@ function	getCVXMintAmount(crvEarned, tangSupply) {
 	return 0;
 }
 
-
 const getCRVAPY = memoize(async (userAddress) => {
-	const	mainPoolsGaugeRewards = await getMainPoolsGaugeRewards();
-	// console.log(mainPoolsGaugeRewards);
 	const	GAUGE_CONTROLLER_ADDRESS = '0x2F50D538606Fa9EDD2B11E2446BEb18C9D5846bB';
-	const	prices = await getAssetsPrices(['curve-dao-token', 'convex-crv', 'convex-finance', 'bitcoin', 'stasis-eurs', 'ethereum', 'chainlink']);
-	const	tangPrices = await getTangPrices(['convex-finance'], ['usd','eur','btc','eth','link']);
+	const	[mainPoolsGaugeRewards, prices, tangPrices, triCryptoPrice] = await Promise.all([
+		getMainPoolsGaugeRewards(),
+		getAssetsPrices(['curve-dao-token', 'convex-crv', 'convex-finance', 'bitcoin', 'stasis-eurs', 'ethereum', 'chainlink']),
+		getTangPrices(['convex-finance'], ['usd','eur','btc','eth','link']),
+		getTriCryptoPrice()
+	]);
+	// const	mainPoolsGaugeRewards = await getMainPoolsGaugeRewards();
+	// const	prices = await getAssetsPrices(['curve-dao-token', 'convex-crv', 'convex-finance', 'bitcoin', 'stasis-eurs', 'ethereum', 'chainlink']);
+	// const	tangPrices = await getTangPrices(['convex-finance'], ['usd','eur','btc','eth','link']);
 	const	CRVAPYsBase = {};
 	const	CRVAPYs = {};
 	const	CRVRate = {};
@@ -58,6 +71,7 @@ const getCRVAPY = memoize(async (userAddress) => {
 	const	ExtraAPYs = {};
 	const	poolsLen = poolIds.length;
 	prices.dollar = 1;
+	prices.crypto = triCryptoPrice;
 
 	const tangContract = new ethers.Contract('0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B', [{'inputs':[],'name':'totalSupply','outputs':[{'internalType':'uint256','name':'','type':'uint256'}],'stateMutability':'view','type':'function'}], ethersProvider);
 	const tangSupply = await tangContract.totalSupply();
@@ -88,7 +102,10 @@ const getCRVAPY = memoize(async (userAddress) => {
 		const	relative_weight = callsResult[callResultIndex + 2];
 		const	virtual_price = callsResult[callResultIndex + 3];
 		const	crvPrice = prices['curve-dao-token'];
-		const	assetPrice = (prices[pool?.coingeckoInfo?.referenceAssetId] || 1);
+		let		assetPrice = (prices[pool?.coingeckoInfo?.referenceAssetId] || 1);
+		if (pool?.referenceAsset === 'crypto') {
+			assetPrice = prices.crypto;
+		}
 		const	refAssetPrice = tangPrices['convex-finance'].usd;//[pool?.coingeckoInfo?.referenceVsId];
 		const	rate = (inflation_rate * relative_weight * 12614400) / (working_supply * assetPrice * virtual_price);
 		const	apy = crvPrice * rate * 100;
