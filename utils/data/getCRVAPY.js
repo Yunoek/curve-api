@@ -1,57 +1,97 @@
-/* eslint-disable no-restricted-syntax */
-
 import memoize from 'memoizee';
+import {Contract, Provider} from 'ethcall';
+import {ethers} from 'ethers';
 import {GraphQLClient, gql} from 'graphql-request';
-import {flattenArray, arrayToHashmap} from 'utils/Array';
+import Request from 'utils/Request';
+import {arrayToHashmap} from 'utils/Array';
 import getAssetsPrices from 'utils/data/assets-prices';
-import getPoolUsdFigure from 'utils/data/getPoolUsdFigure';
-import pools, {poolGauges} from 'constants/pools';
-import Web3 from 'web3';
-import Multicall from 'constants/abis/multicall.json';
+import pools, {poolIds} from 'constants/pools';
+import {GAUGE_POOL_ABI, GAUGE_CONTROLLER_ABI, SWAP_POOL_ABI} from './abis/custom';
 
-const web3 = new Web3(`https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`);
-const MulticallContract = new web3.eth.Contract(Multicall, '0xeefBa1e63905eF1D7ACbA5a8513c70307C1cE441');
+const ethersProvider = new ethers.providers.JsonRpcProvider(`https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`);
+async function newEthCallProvider(provider) {
+	const	ethcallProvider = new Provider();
+	await	ethcallProvider.init(provider);
+	return	ethcallProvider;
+}
+async function	getTangPrices(assetCoingeckoIds, vs_currencies) {
+	const	response = await Request.get(`https://api.coingecko.com/api/v3/simple/price?vs_currencies=${vs_currencies}&ids=${assetCoingeckoIds}`);
+	const	json = await response.json();
+	return json;
+}
+
+function	getCVXMintAmount(crvEarned, tangSupply) {
+	const	cliffSize = 100000; //* 1e18; //new cliff every 100,000 tokens
+	const	cliffCount = 1000; // 1,000 cliffs
+	const	maxSupply = 100000000; // * 1e18; //100 mil max supply
+	const	cvxSupply = ethers.utils.formatEther(tangSupply);
+	const	currentCliff = cvxSupply / cliffSize;
+
+	if (currentCliff < cliffCount) {
+		const	remaining = cliffCount - currentCliff;
+		let		cvxEarned = crvEarned * remaining / cliffCount;
+		const	amountTillMax = maxSupply - cvxSupply;
+		if (cvxEarned > amountTillMax) {
+			cvxEarned = amountTillMax;
+		}
+		return cvxEarned;
+	}
+	return 0;
+}
+
 
 const getCRVAPY = memoize(async (userAddress) => {
-	const GAUGE_CONTROLLER_ADDRESS = '0x2F50D538606Fa9EDD2B11E2446BEb18C9D5846bB';
-	const GAUGE_RELATIVE_WEIGHT = '0x6207d866000000000000000000000000';
-	const {'curve-dao-token': CRVprice} = await getAssetsPrices(['curve-dao-token']);
-	const weightCalls = poolGauges.map((gauge) => [GAUGE_CONTROLLER_ADDRESS, GAUGE_RELATIVE_WEIGHT + gauge.slice(2)]);
-	const aggCallsWeights = await MulticallContract.methods.aggregate(weightCalls).call();
-	const decodedWeights = aggCallsWeights[1].map((hex, i) => [weightCalls[i][0], web3.eth.abi.decodeParameter('uint256', hex) / 1e18]);
-	const ratesCalls = flattenArray(poolGauges.map((gauge) => [
-		[gauge, '0x180692d0'],
-		[gauge, '0x17e28089'],
-		[gauge, '0x18160ddd'],
-	]));
-	const aggRates = await MulticallContract.methods.aggregate(ratesCalls).call();
-	const decodedRate = aggRates[1].map((hex) => web3.eth.abi.decodeParameter('uint256', hex));
-	const gaugeRates = decodedRate.filter((_, i) => i % 3 === 0).map((v) => v / 1e18);
-	const workingSupplies = decodedRate.filter((_, i) => i % 3 === 1).map((v) => v / 1e18);
-	const virtualPriceCalls = pools.filter(({addresses: {swap}}) => !!swap).map(({addresses: {swap}}) => [swap, '0xbb7b8b80']);
-	const aggVirtualPrices = await MulticallContract.methods.aggregate(virtualPriceCalls).call();
-	const decodedVirtualPrices = aggVirtualPrices[1].map((hex, i) => [virtualPriceCalls[i][0], web3.eth.abi.decodeParameter('uint256', hex) / 1e18]);
-	const CRVAPYs = {};
-	const CRVRate = {};
+	const	GAUGE_CONTROLLER_ADDRESS = '0x2F50D538606Fa9EDD2B11E2446BEb18C9D5846bB';
+	const	prices = await getAssetsPrices(['curve-dao-token', 'convex-crv', 'convex-finance', 'bitcoin', 'stasis-eurs', 'ethereum', 'chainlink']);
+	const	tangPrices = await getTangPrices(['convex-finance'], ['usd','eur','btc','eth','link']);
+	const	CRVAPYsBase = {};
+	const	CRVAPYs = {};
+	const	CRVRate = {};
+	const	TANGAPY = {};
+	const	poolsLen = poolIds.length;
+	prices.dollar = 1;
 
-	let i = 0;
-	for (const w of decodedWeights) {
-		const pool = pools.find(({addresses: {gauge}}) => gauge && gauge.toLowerCase() === '0x' + weightCalls[i][1].slice(34).toLowerCase());
-		const {id: poolId, addresses: {swap: swapAddress}} = pool;
+	const tangContract = new ethers.Contract('0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B', [{'inputs':[],'name':'totalSupply','outputs':[{'internalType':'uint256','name':'','type':'uint256'}],'stateMutability':'view','type':'function'}], ethersProvider);
+	const tangSupply = await tangContract.totalSupply();
 
-		const virtualPrice = decodedVirtualPrices.find((v) => v[0].toLowerCase() === swapAddress.toLowerCase())[1];
-		// eslint-disable-next-line no-await-in-loop
-		const workingSupply = await getPoolUsdFigure(workingSupplies[i], pool, web3);
-
-		const rate = (gaugeRates[i] * w[1] * 31536000 / workingSupply * 0.4) / virtualPrice;
-		let apy = rate * CRVprice * 100;
-		if (isNaN(apy)) apy = 0;
-
-		CRVAPYs[poolId] = apy;
-		CRVRate[poolId] = rate;
-
-		i += 1;
+	//Prepare multicalls
+	const	ethcallProvider = await newEthCallProvider(ethersProvider);
+	const	calls = [];
+	for (let index = 0; index < poolsLen; index++) {
+		const	pool = pools.getById(poolIds[index]);
+		const	GAUGE_POOL_CONTRACT = new Contract(pool?.addresses?.gauge, GAUGE_POOL_ABI);
+		const	GAUGE_CONTROLLER_CONTRACT = new Contract(GAUGE_CONTROLLER_ADDRESS, GAUGE_CONTROLLER_ABI);
+		const	SWAP_POOL_CONTRACT = new Contract(pool?.addresses?.swap, SWAP_POOL_ABI);
+		calls.push(...[
+			GAUGE_POOL_CONTRACT.inflation_rate(),
+			GAUGE_POOL_CONTRACT.working_supply(),
+			GAUGE_CONTROLLER_CONTRACT.gauge_relative_weight(pool?.addresses?.gauge),
+			SWAP_POOL_CONTRACT.get_virtual_price(),
+		]);
 	}
+
+	//Parse multicalls result
+	const	callsResult = await ethcallProvider.all(calls);
+	let		callResultIndex = 0;
+	for (let index = 0; index < poolsLen; index++) {
+		const	pool = pools.getById(poolIds[index]);
+		const	inflation_rate = callsResult[callResultIndex + 0];
+		const	working_supply = callsResult[callResultIndex + 1];
+		const	relative_weight = callsResult[callResultIndex + 2];
+		const	virtual_price = callsResult[callResultIndex + 3];
+		const	crvPrice = prices['curve-dao-token'];
+		const	assetPrice = (prices[pool?.coingeckoInfo?.referenceAssetId] || 1);
+		const	refAssetPrice = tangPrices['convex-finance'].usd;//[pool?.coingeckoInfo?.referenceVsId];
+		const	rate = (inflation_rate * relative_weight * 12614400) / (working_supply * assetPrice * virtual_price);
+		const	apy = crvPrice * rate * 100;
+		
+		CRVAPYs[pool.id] = apy;
+		CRVAPYsBase[pool.id] = apy;
+		CRVRate[pool.id] = rate;
+		TANGAPY[pool.id] = (getCVXMintAmount(rate, tangSupply) * refAssetPrice * 100); //TANGPRICE VS BASECURRENCY
+		callResultIndex += 4;
+	}
+
 
 	const boosts = arrayToHashmap(pools.map(({id}) => [id, 1]));
 	if (userAddress) {
@@ -87,8 +127,9 @@ const getCRVAPY = memoize(async (userAddress) => {
 	}
 
 	return {
-		CRVprice,
 		CRVAPYs,
+		CRVAPYsBase,
+		TANGAPY,
 		CRVRate,
 		boosts,
 	};

@@ -1,17 +1,15 @@
 import Web3 from 'web3';
-import {IS_DEV} from 'constants/AppConstants';
 
 import {fn} from '../../utils/api';
 import factorypool3Abi from '../../constants/abis/factory_swap.json';
 
 const web3 = new Web3(`https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`);
-const BASE_API_DOMAIN = IS_DEV ? 'http://localhost:3000' : 'https://api.curve.fi';
 
 export default fn(async (query) => {
 	const version = query.version === '2' ? 2 : 1;
 	console.log({version});
 
-	let res = await (await fetch(`${BASE_API_DOMAIN}/api/${version === 1 ? 'getFactoryPools' : 'getFactoryV2Pools'}`)).json();
+	let res = await (await fetch(`https://api.curve.fi/api/${version === 1 ? 'getFactoryPools' : 'getFactoryV2Pools'}`)).json();
 
 	let poolDetails = [];
 	let totalVolume = 0;

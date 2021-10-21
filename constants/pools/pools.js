@@ -13,6 +13,7 @@ module.exports = [
 		coingeckoInfo: {
 			id: 'dai',
 			symbol: 'Dai',
+			referenceAssetId: 'convex-crv',
 		},
 		assets: 'crv+cvx',
 		coins: [
@@ -26,8 +27,7 @@ module.exports = [
 			gauge: '0x903dA6213a5A12B61c821598154EfAd98C3B20E4',
 			deposit: '0xF403C135812408BFbE8713b5A23a04b3D48AAE31',
 		},
-		isFactory: true,
-		hasAMultiplier: false,
+		isFactory: true
 	}, {
 		dataIndex: 0,
 		id: 'compound',

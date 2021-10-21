@@ -6,7 +6,6 @@ import erc20Abi from '../../constants/abis/erc20.json';
 import {multiCall} from '../../utils/Calls';
 import {flattenArray, sum} from '../../utils/Array';
 import getTokensPrices from '../../utils/data/tokens-prices';
-import {IS_DEV} from 'constants/AppConstants';
 
 const web3 = new Web3(`https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`);
 
@@ -51,11 +50,8 @@ export default fn(async () => {
 		params: [id],
 	})));
 
-	const BASE_API_DOMAIN = IS_DEV ? 'http://localhost:3000' : 'https://api.curve.fi';
-	let res = await (await fetch(`${BASE_API_DOMAIN}/api/getMainRegistryPools`)).json();
 
-
-
+	let res = await (await fetch('https://api.curve.fi/api/getMainRegistryPools')).json();
 
 	const poolData = await multiCall(flattenArray(poolAddresses.map((address, id) => {
 		const poolContract = new web3.eth.Contract(factoryPoolAbi, address);
@@ -111,7 +107,6 @@ export default fn(async () => {
 	}, []);
 
 	const coinPrices = await getTokensPrices(allCoinAddresses.map(({address}) => address));
-	console.log({coinPrices});
 
 	const coinData = await multiCall(flattenArray(allCoinAddresses.map(({poolId, address}) => {
 		const coinContract = new web3.eth.Contract(erc20Abi, address);

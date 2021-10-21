@@ -2,8 +2,8 @@ import memoize from 'memoizee';
 import Request from 'utils/Request';
 import {arrayToHashmap} from 'utils/Array';
 
-const getAssetsPrices = memoize((assetCoingeckoIds) => (
-	Request.get(`https://api.coingecko.com/api/v3/simple/price?vs_currencies=usd&ids=${assetCoingeckoIds.join(',')}`)
+const getAssetsPrices = memoize((assetCoingeckoIds, vs_currencies = 'usd') => (
+	Request.get(`https://api.coingecko.com/api/v3/simple/price?vs_currencies=${vs_currencies}&ids=${assetCoingeckoIds.join(',')}`)
 		.then((response) => response.json())
 		.then((prices) => arrayToHashmap(assetCoingeckoIds.map((id) => [
 			id,
