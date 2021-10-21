@@ -151,7 +151,16 @@ export default fn(async ({address}) => {
 	const [
 		additionalRewards,
 		{dailyApy: baseApys},
-		{CRVAPYs: crvApys, boosts, CRVprice: crvPrice, CRVRate: crvRate, CRVAPYsBase: crvApysBase, TANGAPY: tangApy, ExtraAPYs: extraApy},
+		{
+			CRVAPYs: crvApys,
+			boosts,
+			CRVprice: crvPrice,
+			CRVRate: crvRate,
+			CRVAPYsBase: crvApysBase,
+			TANGAPY: tangApy,
+			ExtraAPYs: extraApy,
+			stackedTangAPYs
+		},
 		{tvl, vsPrices},
 		tangAndConvex,
 	] = await Promise.all([
@@ -162,7 +171,7 @@ export default fn(async ({address}) => {
 		getTangAndConvex(),
 	]);
 
-	return {pools: arrayToHashmap(pools.map((pool, index) => [pool.id, {
+	return {stackedTangAPYs, pools: arrayToHashmap(pools.map((pool, index) => [pool.id, {
 		id: pool.id,
 		name: pool.name,
 		cgID: pool.coingeckoInfo?.id,

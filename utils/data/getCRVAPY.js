@@ -53,6 +53,34 @@ function	getCVXMintAmount(crvEarned, tangSupply) {
 	return 0;
 }
 
+async function	StakedTangAPR(prices, tangSupply) {
+	const stakeContract = new ethers.Contract('0x3Fe65692bfCD0e6CF84cB1E7d24108E434A7587e', [{'inputs':[],'name':'rewardRate','outputs':[{'internalType':'uint256','name':'','type':'uint256'}],'stateMutability':'view','type':'function'},{'inputs':[],'name':'totalSupply','outputs':[{'internalType':'uint256','name':'','type':'uint256'}],'stateMutability':'view','type':'function'}], ethersProvider);
+	const theepoolstakeContract = new ethers.Contract('0x7091dbb7fcbA54569eF1387Ac89Eb2a5C9F6d2EA', [{'inputs':[],'name':'rewardRate','outputs':[{'internalType':'uint256','name':'','type':'uint256'}],'stateMutability':'view','type':'function'}], ethersProvider);
+	const curveSwap = new ethers.Contract('0xbEbc44782C7dB0a1A60Cb6fe97d0b483032FF1C7', [{'inputs':[],'name':'get_virtual_price','outputs':[{'internalType':'uint256','name':'','type':'uint256'}],'stateMutability':'view','type':'function'}], ethersProvider);
+	
+	const	crvPrice = prices['curve-dao-token'];
+	const	cvxPrice = prices['convex-finance'];
+
+	let		rate = await stakeContract.rewardRate();
+	let		threerate = await theepoolstakeContract.rewardRate();
+	let		supply = await stakeContract.totalSupply();
+	let		virtualPrice = ethers.utils.formatEther(await curveSwap.get_virtual_price());
+	
+	supply *= crvPrice;
+	rate /= supply;
+	threerate /= supply;
+	
+	const	crvPerYear = rate * 86400 * 365;
+	const	tangPerYear = getCVXMintAmount(crvPerYear, tangSupply);
+	const	threepoolPerYear = threerate * 86400 * 365;
+	
+	const	crvAPR = (crvPerYear * crvPrice) * 100;
+	const	tangAPR = (tangPerYear * cvxPrice) * 100;
+	const	crv3APR = (threepoolPerYear * virtualPrice) * 100;
+	const	apr = (crvPerYear * crvPrice) + (tangPerYear * cvxPrice) + (threepoolPerYear * virtualPrice);
+	return ({crvAPR, tangAPR, crv3APR, apr: apr * 100});
+}
+
 const getCRVAPY = memoize(async (userAddress) => {
 	const	GAUGE_CONTROLLER_ADDRESS = '0x2F50D538606Fa9EDD2B11E2446BEb18C9D5846bB';
 	const	[mainPoolsGaugeRewards, prices, tangPrices, triCryptoPrice] = await Promise.all([
@@ -180,6 +208,7 @@ const getCRVAPY = memoize(async (userAddress) => {
 		ExtraAPYs,
 		CRVRate,
 		boosts,
+		stackedTangAPYs: await StakedTangAPR(prices, tangSupply)
 	};
 }, {
 	promise: true,
