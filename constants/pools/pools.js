@@ -455,7 +455,8 @@ module.exports = [
 			gauge: '0xC2b1DF84112619D190193E48148000e3990Bf627',
 			deposit: '0xF1f85a74AD6c64315F85af52d3d46bF715236ADc',
 		},
-	}, {
+	},
+	{
 		dataIndex: 14,
 		id: 'usdn',
 		name: 'usdn',
@@ -485,7 +486,8 @@ module.exports = [
 			gauge: '0xF98450B5602fa59CC66e1379DFfB6FDDc724CfC4',
 			deposit: '0x094d12e5b541784701FD8d65F11fc0598FBC6332',
 		},
-	}, {
+	},
+	{
 		dataIndex: 15,
 		id: 'linkusd',
 		name: 'linkusd',
@@ -1340,6 +1342,10 @@ module.exports = [
 			name: '3CrvCrypto',
 			symbol: '3CrvCrypto',
 		},
+		coingeckoInfo: {
+			id: 'tricrypto',
+			symbol: 'tricrypto',
+		},
 		assets: 'usdt+weth+wbtc',
 		coins: [
 			coins.usdt,
@@ -1365,6 +1371,10 @@ module.exports = [
 		lpTokenInfo: {
 			name: '3CrvCrypto2',
 			symbol: '3CrvCrypto2',
+		},
+		coingeckoInfo: {
+			id: 'tricrypto',
+			symbol: 'tricrypto',
 		},
 		assets: 'usdt+weth+wbtc',
 		coins: [
