@@ -174,9 +174,10 @@ export default fn(async ({address}) => {
 	return {stackedTangAPYs, pools: arrayToHashmap(pools.map((pool, index) => [pool.id, {
 		id: pool.id,
 		name: pool.name,
+		poolName: pool.poolName,
+		lpName: pool.lpName,
 		cgID: pool.coingeckoInfo?.id,
 		addresses: {
-			underlying: pool.addresses.underlying,
 			swap: pool.addresses.swap,
 			lpToken: pool.addresses.lpToken,
 			gauge: pool.addresses.gauge,
