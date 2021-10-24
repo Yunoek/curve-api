@@ -32,6 +32,7 @@ module.exports = [
 		dataIndex: 0,
 		id: 'compound',
 		name: 'Compound',
+		poolName: 'Curve Compound',
 		pageMetaData: {
 			title: 'Compounded',
 			description: 'A curve.fi portal for swapping cDAI/cUSDC',
@@ -67,6 +68,7 @@ module.exports = [
 		dataIndex: 1,
 		id: 'usdt',
 		name: 'USDT',
+		poolName: 'Curve USDT',
 		pageMetaData: {
 			title: 'Tethered',
 			description: 'A curve.fi Tethered portal for swapping cDAI/cUSDC/USDT',
@@ -104,6 +106,7 @@ module.exports = [
 		dataIndex: 5,
 		id: 'pax',
 		name: 'PAX',
+		poolName: 'Curve PAX',
 		lpTokenInfo: {
 			name: 'pCurve',
 			symbol: 'pCrv',
@@ -140,6 +143,7 @@ module.exports = [
 		id: 'iearn',
 		idAlias: 'y',
 		name: 'Y',
+		poolName: 'Curve yCRV',
 		pageMetaData: {
 			title: 'Yield',
 			description: 'A curve.fi yTokens portal for swapping DAI/USDC/USDT/TUSD',
@@ -180,6 +184,7 @@ module.exports = [
 		dataIndex: 3,
 		id: 'busd',
 		name: 'BUSD',
+		poolName: 'Curve yBUSD',
 		pageMetaData: {
 			title: 'bUSD',
 			description: 'A curve.fi portal for swapping BUSD and other stablecoins',
@@ -219,6 +224,7 @@ module.exports = [
 		dataIndex: 4,
 		id: 'susdv2',
 		name: 'sUSD',
+		poolName: 'Curve sUSD',
 		lpTokenInfo: {
 			name: 'sCurve',
 			symbol: 'sCrv',
@@ -255,6 +261,7 @@ module.exports = [
 		dataIndex: 7,
 		id: 'ren',
 		name: 'ren',
+		poolName: 'Curve renBTC',
 		lpTokenInfo: {
 			name: 'renCurve',
 			symbol: 'renCrv',
@@ -283,6 +290,7 @@ module.exports = [
 		dataIndex: 8,
 		id: 'sbtc',
 		name: 'sbtc',
+		poolName: 'Curve sBTC',
 		lpTokenInfo: {
 			name: 'sbtcCurve',
 			symbol: 'sbtcCrv',
@@ -317,6 +325,7 @@ module.exports = [
 		dataIndex: 9,
 		id: 'hbtc',
 		name: 'hbtc',
+		poolName: 'Curve HBTC',
 		lpTokenInfo: {
 			name: 'hbtcCurve',
 			symbol: 'hbtcCrv',
@@ -344,6 +353,7 @@ module.exports = [
 		dataIndex: 10,
 		id: '3pool',
 		name: '3pool',
+		poolName: 'Curve 3Crv',
 		lpTokenInfo: {
 			name: '3poolCurve',
 			symbol: '3poolCrv',
@@ -369,6 +379,7 @@ module.exports = [
 		dataIndex: 11,
 		id: 'gusd',
 		name: 'gusd',
+		poolName: 'Curve GUSD',
 		lpTokenInfo: {
 			name: 'gusdCurve',
 			symbol: 'gusdCrv',
@@ -399,6 +410,7 @@ module.exports = [
 		dataIndex: 12,
 		id: 'husd',
 		name: 'husd',
+		poolName: 'Curve HUSD',
 		lpTokenInfo: {
 			name: 'husdCurve',
 			symbol: 'husdCrv',
@@ -429,6 +441,7 @@ module.exports = [
 		dataIndex: 13,
 		id: 'usdk',
 		name: 'usdk',
+		poolName: 'Curve USDK',
 		lpTokenInfo: {
 			name: 'usdkCurve',
 			symbol: 'usdkCrv',
@@ -455,11 +468,11 @@ module.exports = [
 			gauge: '0xC2b1DF84112619D190193E48148000e3990Bf627',
 			deposit: '0xF1f85a74AD6c64315F85af52d3d46bF715236ADc',
 		},
-	},
-	{
+	}, {
 		dataIndex: 14,
 		id: 'usdn',
 		name: 'usdn',
+		poolName: 'Curve USDN',
 		lpTokenInfo: {
 			name: 'usdnCurve',
 			symbol: 'usdnCrv',
@@ -486,8 +499,7 @@ module.exports = [
 			gauge: '0xF98450B5602fa59CC66e1379DFfB6FDDc724CfC4',
 			deposit: '0x094d12e5b541784701FD8d65F11fc0598FBC6332',
 		},
-	},
-	{
+	}, {
 		dataIndex: 15,
 		id: 'linkusd',
 		name: 'linkusd',
@@ -523,6 +535,7 @@ module.exports = [
 		dataIndex: 16,
 		id: 'musd',
 		name: 'musd',
+		poolName: 'Curve mUSD',
 		lpTokenInfo: {
 			name: 'musdCurve',
 			symbol: 'musdCrv',
@@ -557,6 +570,7 @@ module.exports = [
 		dataIndex: 17,
 		id: 'rsv',
 		name: 'rsv',
+		poolName: 'Curve RSV',
 		lpTokenInfo: {
 			name: 'rsvCurve',
 			symbol: 'rsvCrv',
@@ -595,6 +609,7 @@ module.exports = [
 		dataIndex: 18,
 		id: 'tbtc',
 		name: 'tbtc',
+		poolName: 'Curve tBTC',
 		lpTokenInfo: {
 			name: 'tbtcCurve',
 			symbol: 'tbtcCrv',
@@ -632,6 +647,7 @@ module.exports = [
 		dataIndex: 19,
 		id: 'dusd',
 		name: 'dusd',
+		poolName: 'Curve DUSD',
 		lpTokenInfo: {
 			name: 'dusdCurve',
 			symbol: 'dusdCrv',
@@ -670,6 +686,7 @@ module.exports = [
 		dataIndex: 20,
 		id: 'pbtc',
 		name: 'pbtc',
+		poolName: 'Curve pBTC',
 		lpTokenInfo: {
 			name: 'pbtcCurve',
 			symbol: 'pbtcCrv',
@@ -712,6 +729,7 @@ module.exports = [
 		dataIndex: 21,
 		id: 'bbtc',
 		name: 'bbtc',
+		poolName: 'Curve BBTC',
 		lpTokenInfo: {
 			name: 'bbtcCurve',
 			symbol: 'bbtcCrv',
@@ -746,6 +764,7 @@ module.exports = [
 		dataIndex: 22,
 		id: 'obtc',
 		name: 'obtc',
+		poolName: 'Curve oBTC',
 		lpTokenInfo: {
 			name: 'obtcCurve',
 			symbol: 'obtcCrv',
@@ -788,6 +807,7 @@ module.exports = [
 		dataIndex: 23,
 		id: 'ust',
 		name: 'ust',
+		poolName: 'Curve UST',
 		lpTokenInfo: {
 			name: 'ustCurve',
 			symbol: 'ustCrv',
@@ -819,6 +839,7 @@ module.exports = [
 		dataIndex: 24,
 		id: 'eurs',
 		name: 'eurs',
+		poolName: 'Curve EURS',
 		lpTokenInfo: {
 			name: 'eursCurve',
 			symbol: 'eursCrv',
@@ -852,6 +873,7 @@ module.exports = [
 		dataIndex: 25,
 		id: 'seth',
 		name: 'seth',
+		poolName: 'Curve sETH',
 		lpTokenInfo: {
 			name: 'sethCurve',
 			symbol: 'eCrv',
@@ -879,6 +901,7 @@ module.exports = [
 		dataIndex: 26,
 		id: 'aave',
 		name: 'aave',
+		poolName: 'Curve Aave',
 		lpTokenInfo: {
 			name: 'aaveCurve',
 			symbol: 'a3Crv',
@@ -919,6 +942,7 @@ module.exports = [
 		dataIndex: 27,
 		id: 'steth',
 		name: 'steth',
+		poolName: 'Curve stETH',
 		lpTokenInfo: {
 			name: 'stethCurve',
 			symbol: 'stethCrv',
@@ -954,6 +978,7 @@ module.exports = [
 		dataIndex: 28,
 		id: 'saave',
 		name: 'saave',
+		poolName: 'Curve sAave',
 		lpTokenInfo: {
 			name: 'saaveCurve',
 			symbol: 'saCrv',
@@ -993,6 +1018,7 @@ module.exports = [
 		dataIndex: 29,
 		id: 'ankreth',
 		name: 'ankreth',
+		poolName: 'Curve aETHc',
 		lpTokenInfo: {
 			name: 'ankrethCurve',
 			symbol: 'aethCrv',
@@ -1035,6 +1061,7 @@ module.exports = [
 		dataIndex: 30,
 		id: 'usdp',
 		name: 'usdp',
+		poolName: 'Curve USDP',
 		lpTokenInfo: {
 			name: 'usdpCurve',
 			symbol: 'usdpCrv',
@@ -1066,6 +1093,7 @@ module.exports = [
 		dataIndex: 31,
 		id: 'ib',
 		name: 'ironbank',
+		poolName: 'Curve Iron Bank',
 		lpTokenInfo: {
 			name: 'ibCurve',
 			symbol: 'ib3Crv',
@@ -1098,6 +1126,7 @@ module.exports = [
 		dataIndex: 32,
 		id: 'link',
 		name: 'link',
+		poolName: 'Curve LINK',
 		lpTokenInfo: {
 			name: 'linkCurve',
 			symbol: 'linkCrv',
@@ -1125,6 +1154,7 @@ module.exports = [
 		dataIndex: 33,
 		id: 'tusd',
 		name: 'tusd',
+		poolName: 'Curve TUSD',
 		lpTokenInfo: {
 			name: 'tusdCurve',
 			symbol: 'tusdCrv',
@@ -1156,6 +1186,7 @@ module.exports = [
 		dataIndex: 34,
 		id: 'frax',
 		name: 'frax',
+		poolName: 'Curve FRAX',
 		lpTokenInfo: {
 			name: 'fraxCurve',
 			symbol: 'fraxCrv',
@@ -1198,6 +1229,7 @@ module.exports = [
 		dataIndex: 35,
 		id: 'lusd',
 		name: 'lusd',
+		poolName: 'Curve LUSD',
 		lpTokenInfo: {
 			name: 'lusdCurve',
 			symbol: 'lusdCrv',
@@ -1233,6 +1265,7 @@ module.exports = [
 		dataIndex: 36,
 		id: 'busdv2',
 		name: 'busdv2',
+		poolName: 'Curve BUSD',
 		lpTokenInfo: {
 			name: 'busdCurve',
 			symbol: 'busdCrv',
@@ -1264,6 +1297,7 @@ module.exports = [
 		dataIndex: 37,
 		id: 'reth',
 		name: 'reth',
+		poolName: 'Curve rETH',
 		lpTokenInfo: {
 			name: 'rethCurve',
 			symbol: 'rethCrv',
@@ -1299,6 +1333,7 @@ module.exports = [
 		dataIndex: 38,
 		id: 'alusd',
 		name: 'alusd',
+		poolName: 'Curve alUSD',
 		lpTokenInfo: {
 			name: 'alusdCurve',
 			symbol: 'alusdCrv',
@@ -1338,6 +1373,7 @@ module.exports = [
 		dataIndex: 39,
 		id: 'tricrypto',
 		name: 'tricrypto',
+		poolName: 'Curve triCrypto',
 		lpTokenInfo: {
 			name: '3CrvCrypto',
 			symbol: '3CrvCrypto',
@@ -1368,6 +1404,7 @@ module.exports = [
 		dataIndex: 40,
 		id: 'tricrypto2',
 		name: 'tricrypto2',
+		poolName: 'Curve 3Crypto',
 		lpTokenInfo: {
 			name: '3CrvCrypto2',
 			symbol: '3CrvCrypto2',
@@ -1394,11 +1431,11 @@ module.exports = [
 		gaugeVersion: 4,
 		cryptoPool: true,
 		referenceAsset: REFERENCE_ASSETS.CRYPTO,
-	},
-	{
+	}, {
 		dataIndex: 41,
 		id: 'mim',
 		name: 'mim',
+		poolName: 'Curve MIM',
 		lpTokenInfo: {
 			name: 'mimCurve',
 			symbol: 'mimCrv',
@@ -1434,11 +1471,11 @@ module.exports = [
 			convexRewarder: '0x69a92f1656cd2e193797546cFe2EaF32EACcf6f7',
 			rewardTokenDecimals: 18,
 		}],
-	},
-	{
+	}, {
 		dataIndex: 42,
 		id: 'eurt',
 		name: 'eurt',
+		poolName: 'Curve EURT',
 		lpTokenInfo: {
 			name: 'eurtCurve',
 			symbol: 'eurtCrv',
@@ -1462,4 +1499,242 @@ module.exports = [
 		},
 		gaugeVersion: 4,
 	},
+	{
+		dataIndex: 43,
+		id: 'f-ibjpy',
+		name: 'Fixed Forex: JPY',
+		poolName: 'Curve ibJPY',
+		lpTokenInfo: {
+			name: 'f-ibjpyCurve',
+			symbol: 'f-ibjpyCrv'
+		},
+		factoryPoolId: 28,
+		assets: 'ibJPY+sJPY',
+		referenceAsset: REFERENCE_ASSETS.JPY,
+		coingeckoInfo: {
+			id: 'jpyc',
+			symbol: 'JPY'
+		},
+		coins: [coins.ibjpy, coins.sjpy],
+		addresses: {
+			underlying: '0x5555f75e3d5278082200Fb451D1b6bA946D8e13b',
+			swap: '0x8818a9bb44Fbf33502bE7c15c500d0C783B73067',
+			lpToken: '0x8818a9bb44Fbf33502bE7c15c500d0C783B73067',
+			gauge: '0xeFF437A56A22D7dD86C1202A308536ED8C7da7c1'
+		},
+		gaugeVersion: 4
+	}, {
+		dataIndex: 44,
+		id: 'f-ibgbp',
+		name: 'Fixed Forex: GBP',
+		poolName: 'Curve ibGBP',
+		lpTokenInfo: {
+			name: 'f-ibgbpCurve',
+			symbol: 'f-ibgbpCrv'
+		},
+		factoryPoolId: 30,
+		assets: 'ibGBP+sGBP',
+		referenceAsset: REFERENCE_ASSETS.GBP,
+		coingeckoInfo: {
+			id: 'truegbp',
+			symbol: 'GBP'
+		},
+		coins: [coins.ibgbp, coins.sgbp],
+		addresses: {
+			swap: '0xD6Ac1CB9019137a896343Da59dDE6d097F710538',
+			lpToken: '0xD6Ac1CB9019137a896343Da59dDE6d097F710538',
+			gauge: '0x63d9f3aB7d0c528797A12a0684E50C397E9e79dC'
+		},
+		gaugeVersion: 4
+	}, {
+		dataIndex: 45,
+		id: 'f-ibaud',
+		name: 'Fixed Forex: AUD',
+		poolName: 'Curve ibAUD',
+		lpTokenInfo: {
+			name: 'f-ibaudCurve',
+			symbol: 'f-ibaudCrv'
+		},
+		factoryPoolId: 29,
+		assets: 'ibAUD+sAUD',
+		referenceAsset: REFERENCE_ASSETS.AUD,
+		coingeckoInfo: {
+			id: 'saud',
+			symbol: 'AUD'
+		},
+		coins: [coins.ibaud, coins.saud],
+		addresses: {
+			swap: '0x3F1B0278A9ee595635B61817630cC19DE792f506',
+			lpToken: '0x3F1B0278A9ee595635B61817630cC19DE792f506',
+			gauge: '0x05ca5c01629a8E5845f12ea3A03fF7331932233A'
+		},
+		gaugeVersion: 4
+	}, {
+		dataIndex: 46,
+		id: 'f-ibeur',
+		name: 'Fixed Forex: EUR',
+		poolName: 'Curve ibEUR',
+		lpTokenInfo: {
+			name: 'f-ibeurCurve',
+			symbol: 'f-ibeurCrv'
+		},
+		factoryPoolId: 3,
+		assets: 'ibEUR+sEUR',
+		referenceAsset: REFERENCE_ASSETS.EUR,
+		coingeckoInfo: {
+			id: 'tether-eurt',
+			symbol: 'EUR'
+		},
+		coins: [coins.ibeur, coins.seur],
+		addresses: {
+			swap: '0x19b080FE1ffA0553469D20Ca36219F17Fcf03859',
+			lpToken: '0x19b080FE1ffA0553469D20Ca36219F17Fcf03859',
+			gauge: '0x99fb76F75501039089AAC8f20f487bf84E51d76F'
+		},
+		gaugeVersion: 4
+	}, {
+		dataIndex: 47,
+		id: 'f-ibchf',
+		name: 'Fixed Forex: CHF',
+		poolName: 'Curve ibCHF',
+		lpTokenInfo: {
+			name: 'f-ibchfCurve',
+			symbol: 'f-ibchfCrv'
+		},
+		factoryPoolId: 31,
+		assets: 'ibCHF+sCHF',
+		referenceAsset: REFERENCE_ASSETS.CHF,
+		coingeckoInfo: {
+			id: 'cryptofranc',
+			symbol: 'CHF'
+		},
+		coins: [coins.ibchf, coins.schf],
+		addresses: {
+			swap: '0x9c2C8910F113181783c249d8F6Aa41b51Cde0f0c',
+			lpToken: '0x9c2C8910F113181783c249d8F6Aa41b51Cde0f0c',
+			gauge: '0x2fA53e8fa5fAdb81f4332C8EcE39Fe62eA2f919E'
+		},
+		gaugeVersion: 4
+	}, {
+		dataIndex: 48,
+		id: 'f-ibkrw',
+		name: 'Fixed Forex: KRW',
+		poolName: 'Curve ibKRW',
+		lpTokenInfo: {
+			name: 'f-ibkrwCurve',
+			symbol: 'f-ibkrwCrv'
+		},
+		factoryPoolId: 2,
+		assets: 'ibKRW+sKRW',
+		referenceAsset: REFERENCE_ASSETS.KRW,
+		coingeckoInfo: {
+			id: 'terra-krw',
+			symbol: 'KRW'
+		},
+		coins: [coins.ibkrw, coins.skrw],
+		addresses: {
+			swap: '0x8461A004b50d321CB22B7d034969cE6803911899',
+			lpToken: '0x8461A004b50d321CB22B7d034969cE6803911899',
+			gauge: '0x1750a3a3d80A3F5333BBe9c4695B0fAd41061ab1'
+		},
+		gaugeVersion: 4
+	},
+
+
+	{
+		dataIndex: 49,
+		id: 'aleth',
+		name: 'alETH',
+		poolName: 'Curve alETH',
+		lpTokenInfo: {
+			name: 'alethCurve',
+			symbol: 'alethCrv'
+		},
+		factoryPoolId: 38,
+		assets: 'ETH+alETH',
+		referenceAsset: REFERENCE_ASSETS.ETH,
+		coingeckoInfo: {
+			id: 'ethereum',
+			symbol: 'alETH',
+			referenceAssetId: 'ethereum'
+		},
+		coins: [coins.eth, coins.aleth],
+		addresses: {
+			swap: '0xC4C319E2D4d66CcA4464C0c2B32c9Bd23ebe784e',
+			lpToken: '0xC4C319E2D4d66CcA4464C0c2B32c9Bd23ebe784e',
+			gauge: '0x12dCD9E8D1577b5E4F066d8e7D404404Ef045342'
+		},
+		gaugeVersion: 4
+	}, {
+		dataIndex: 50,
+		id: 'eurn',
+		name: 'eurn',
+		lpTokenInfo: {
+			name: 'eurnCurve',
+			symbol: 'eurnCrv'
+		},
+		factoryPoolId: 33,
+		assets: 'EURN+EURT',
+		referenceAsset: REFERENCE_ASSETS.EUR,
+		coingeckoInfo: {
+			id: 'tether-eurt',
+			symbol: 'EUR',
+			referenceAssetId: 'tether-eurt'
+		},
+		coins: [coins.eurn, coins.eurt],
+		addresses: {
+			swap: '0x3Fb78e61784C9c637D560eDE23Ad57CA1294c14a',
+			lpToken: '0x3Fb78e61784C9c637D560eDE23Ad57CA1294c14a',
+			gauge: '0xD9277b0D007464eFF133622eC0d42081c93Cef02'
+		},
+		gaugeVersion: 4
+	}, {
+		dataIndex: 51,
+		id: 'usdm',
+		name: 'usdm',
+		lpTokenInfo: {
+			name: 'usdmCurve',
+			symbol: 'usdmCrv'
+		},
+		factoryPoolId: 23,
+		assets: 'USDM+3pool',
+		referenceAsset: REFERENCE_ASSETS.USD,
+		coingeckoInfo: {
+			referenceAssetId: 'dollar'
+		},
+		isMetaPool: true,
+		coins: [coins.usdm, coins.tricrv],
+		metaCoins: [coins.dai, coins.usdc, coins.usdt],
+		addresses: {
+			swap: '0x5B3b5DF2BF2B6543f78e053bD91C4Bdd820929f1',
+			lpToken: '0x5B3b5DF2BF2B6543f78e053bD91C4Bdd820929f1',
+			gauge: '0x9AF13a7B1f1Bbf1A2B05c6fBF23ac23A9E573b4E',
+			deposit: '0xA79828DF1850E8a3A3064576f380D90aECDD3359'
+		},
+		gaugeVersion: 4
+	}, {
+		dataIndex: 52,
+		id: 'mim-ust',
+		name: 'mim-ust',
+		lpTokenInfo: {
+			name: 'mimustCurve',
+			symbol: 'mimustCrv'
+		},
+		factoryPoolId: 48,
+		assets: 'MIM+UST',
+		referenceAsset: REFERENCE_ASSETS.USD,
+		coingeckoInfo: {
+			id: 'magic-internet-money',
+			symbol: 'MIM',
+			referenceAssetId: 'dollar'
+		},
+		isMetaPool: false,
+		coins: [coins.mim, coins.ust],
+		addresses: {
+			swap: '0x55A8a39bc9694714E2874c1ce77aa1E599461E18',
+			lpToken: '0x55A8a39bc9694714E2874c1ce77aa1E599461E18',
+			gauge: '0xB518f5e3242393d4eC792BD3f44946A3b98d0E48'
+		},
+		gaugeVersion: 4
+	}
 ];

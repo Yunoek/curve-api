@@ -1,6 +1,11 @@
 {
     "USD": "usd",
     "EUR": "eur",
+    "JPY": "jpy",
+    "GBP": "gbp",
+    "AUD": "aud",
+    "CHF": "chf",
+    "KRW": "krw",
     "BTC": "btc",
     "ETH": "eth",
     "LINK": "link",

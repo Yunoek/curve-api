@@ -641,4 +641,131 @@ module.exports = {
 		decimals: 18,
 		address: '0xC581b735A1688071A1746c968e0798D642EDE491'
 	},
+	ibjpy: {
+		id: 'ibjpy',
+		isIronbankToken: !0,
+		symbol: 'ibJPY',
+		decimals: 18,
+		address: '0x5555f75e3d5278082200fb451d1b6ba946d8e13b'
+	},
+	sjpy: {
+		id: 'sjpy',
+		coingeckoId: 'jpyc',
+		symbol: 'sJPY',
+		decimals: 18,
+		address: '0xf6b1c627e95bfc3c1b4c9b825a032ff0fbf3e07d'
+	},
+	ibgbp: {
+		id: 'ibgbp',
+		isIronbankToken: !0,
+		symbol: 'ibGBP',
+		decimals: 18,
+		address: '0x69681f8fde45345c3870bcd5eaf4a05a60e7d227'
+	},
+	sgbp: {
+		id: 'sgbp',
+		coingeckoId: 'truegbp',
+		symbol: 'sGBP',
+		decimals: 18,
+		address: '0x97fe22e7341a0cd8db6f6c021a24dc8f4dad855f'
+	},
+	ibaud: {
+		id: 'ibaud',
+		isIronbankToken: !0,
+		symbol: 'ibAUD',
+		decimals: 18,
+		address: '0xfafdf0c4c1cb09d430bf88c75d88bb46dae09967'
+	},
+	saud: {
+		id: 'saud',
+		coingeckoId: 'saud',
+		symbol: 'sAUD',
+		decimals: 18,
+		address: '0xf48e200eaf9906362bb1442fca31e0835773b8b4'
+	},
+	ibeur: {
+		id: 'ibeur',
+		isIronbankToken: !0,
+		symbol: 'ibEUR',
+		decimals: 18,
+		address: '0x96e61422b6a9ba0e068b6c5add4ffabc6a4aae27'
+	},
+	ibchf: {
+		id: 'ibchf',
+		isIronbankToken: !0,
+		symbol: 'ibCHF',
+		decimals: 18,
+		address: '0x1cc481ce2bd2ec7bf67d1be64d4878b16078f309'
+	},
+	schf: {
+		id: 'schf',
+		coingeckoId: 'cryptofranc',
+		symbol: 'sCHF',
+		decimals: 18,
+		address: '0x0f83287ff768d1c1e17a42f44d644d7f22e8ee1d'
+	},
+	ibkrw: {
+		id: 'ibkrw',
+		isIronbankToken: !0,
+		symbol: 'ibKRW',
+		decimals: 18,
+		address: '0x95dfdc8161832e4ff7816ac4b6367ce201538253'
+	},
+	skrw: {
+		id: 'skrw',
+		coingeckoId: 'terra-krw',
+		symbol: 'sKRW',
+		decimals: 18,
+		address: '0x269895a3df4d73b077fc823dd6da1b95f72aaf9b'
+	},
+	rkp3r: {
+		id: 'rkp3r',
+		coingeckoId: 'keep3rv1',
+		symbol: 'rKP3R',
+		decimals: 18,
+		address: '0xEdB67Ee1B171c4eC66E6c10EC43EDBbA20FaE8e9'
+	},
+	usdm: {
+		id: 'usdm',
+		coingeckoId: 'usdm',
+		symbol: 'USDM',
+		decimals: 18,
+		address: '0x31d4eb09a216e181ec8a43ce79226a487d6f0ba9'
+	},
+	duck: {
+		id: 'duck',
+		coingeckoId: 'unit-protocol-duck',
+		symbol: 'DUCK',
+		decimals: 18,
+		address: '0x92E187a03B6CD19CB6AF293ba17F2745Fd2357D5'
+	},
+	nsbt: {
+		id: 'nsbt',
+		coingeckoId: 'neutrino-system-base-token',
+		symbol: 'NSBT',
+		decimals: 6,
+		address: '0x9D79d5B61De59D882ce90125b18F74af650acB93'
+	},
+	aleth: {
+		id: 'aleth',
+		coingeckoId: 'aleth',
+		type: REFERENCE_ASSETS.ETH,
+		symbol: 'alchemix-eth',
+		decimals: 18,
+		address: '0x0100546f2cd4c9d97f798ffc9755e47865ff7ee6'
+	},
+	eurn: {
+		id: 'eurn',
+		coingeckoId: 'tether-eurt',
+		symbol: 'EURN',
+		decimals: 18,
+		address: '0x9fcf418b971134625cdf38448b949c8640971671'
+	},
+	spell: {
+		id: 'spell',
+		coingeckoId: 'spell-token',
+		symbol: 'SPELL',
+		decimals: 18,
+		address: '0x090185f2135308BaD17527004364eBcC2D37e5F6'
+	},
 };
