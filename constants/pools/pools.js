@@ -6,6 +6,8 @@ module.exports = [
 		dataIndex: -1,
 		id: 'tangcrv',
 		name: 'TangCRV',
+		poolName: 'Curve Tang',
+		lpName: 'crvTang',
 		lpTokenInfo: {
 			name: 'cCurve',
 			symbol: 'cCrv',
