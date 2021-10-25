@@ -150,7 +150,9 @@ async function getTVL() {
 export default fn(async ({address}) => {
 	const [
 		additionalRewards,
-		{dailyApy: baseApys},
+		{
+			dailyApy: baseApys
+		},
 		{
 			CRVAPYs: crvApys,
 			boosts,

@@ -1754,6 +1754,8 @@ module.exports = [
 		assets: 'USDM+3pool',
 		referenceAsset: REFERENCE_ASSETS.USD,
 		coingeckoInfo: {
+			id: 'usdm',
+			symbol: 'usdm',
 			referenceAssetId: 'dollar'
 		},
 		isMetaPool: true,

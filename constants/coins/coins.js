@@ -644,6 +644,7 @@ module.exports = {
 	ibjpy: {
 		id: 'ibjpy',
 		isIronbankToken: !0,
+		coingeckoId: 'ibjpy',
 		symbol: 'ibJPY',
 		decimals: 18,
 		address: '0x5555f75e3d5278082200fb451d1b6ba946d8e13b'
@@ -657,6 +658,7 @@ module.exports = {
 	},
 	ibgbp: {
 		id: 'ibgbp',
+		coingeckoId: 'ibgbp',
 		isIronbankToken: !0,
 		symbol: 'ibGBP',
 		decimals: 18,
@@ -671,6 +673,7 @@ module.exports = {
 	},
 	ibaud: {
 		id: 'ibaud',
+		coingeckoId: 'ibaud',
 		isIronbankToken: !0,
 		symbol: 'ibAUD',
 		decimals: 18,
@@ -686,6 +689,7 @@ module.exports = {
 	ibeur: {
 		id: 'ibeur',
 		isIronbankToken: !0,
+		coingeckoId: 'ibeur',
 		symbol: 'ibEUR',
 		decimals: 18,
 		address: '0x96e61422b6a9ba0e068b6c5add4ffabc6a4aae27'
@@ -693,6 +697,7 @@ module.exports = {
 	ibchf: {
 		id: 'ibchf',
 		isIronbankToken: !0,
+		coingeckoId: 'ibchf',
 		symbol: 'ibCHF',
 		decimals: 18,
 		address: '0x1cc481ce2bd2ec7bf67d1be64d4878b16078f309'
@@ -706,6 +711,7 @@ module.exports = {
 	},
 	ibkrw: {
 		id: 'ibkrw',
+		coingeckoId: 'ibkrw',
 		isIronbankToken: !0,
 		symbol: 'ibKRW',
 		decimals: 18,
