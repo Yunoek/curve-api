@@ -178,8 +178,8 @@ export default fn(async ({address}) => {
 			ExtraAPYs: extraApy,
 			stackedTangAPYs
 		},
-		{tvl, vsPrices},
-		{tang, supply},
+		{tvl},
+		{supply},
 	] = await Promise.all([
 		getCurveRewards(),
 		getAPY(),
@@ -190,7 +190,6 @@ export default fn(async ({address}) => {
 
 
 	const _pools = arrayToHashmap(pools.map((pool, index) => [pool.id, {
-		tang: tang?.[pool.id] || {},
 		baseApy: baseApys[index],
 		crvApy: crvApys[pool.id],
 		crvApysBase: crvApysBase[pool.id],
@@ -199,7 +198,6 @@ export default fn(async ({address}) => {
 		tangApy: tangApy[pool.id],
 		extraApy: extraApy[pool.id],
 		tvl: tvl[pool.id],
-		price: vsPrices[pool.id],
 		additionalRewards: pool.additionalRewards.map(({key, name, convexRewarder}) => ({
 			convexRewarder: convexRewarder,
 			apy: additionalRewards[key || name]?.rewards,
