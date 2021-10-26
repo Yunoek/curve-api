@@ -28,13 +28,12 @@ async function getPrice() {
 	});
 
 	const	_cgIDs = ['curve-dao-token', 'convex-finance', 'convex-crv', ...new Set(_idToFetch)];
-	const	[_iPrices, _aPrices, _triPrices] = await Promise.all([
+	const	[prices, triPrices] = await Promise.all([
 		fetcher(`https://api.coingecko.com/api/v3/simple/price?ids=${_cgIDs}&vs_currencies=${vsCurrencies}`),
 		getTriCryptoPrice()
 	]);
-	const	prices = {..._iPrices, ..._aPrices};
-	prices.tricrypto = {usd: _triPrices};
-	prices.tricrypto2 = {usd: _triPrices};
+	prices.tricrypto = {usd: triPrices};
+	prices.tricrypto2 = {usd: triPrices};
 
 	return prices;
 } //5 minutes
