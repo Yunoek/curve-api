@@ -7,6 +7,7 @@ import pools from 'constants/pools';
 import {ethers} from 'ethers';
 import {Provider, Contract} from 'ethers-multicall';
 import axios from 'axios';
+import BOOSTER_ABI from 'utils/data/abis/booster';
 
 const STACKER = '0x989AEb4d175e16225E39E87d0D97A3360524AD80';
 const LENS = '0x83d95e0D5f402511dB06817Aff3f9eA88224B030'; // to get 3crypto price
@@ -14,10 +15,9 @@ const CONVEX_BOOSTER = '0xF403C135812408BFbE8713b5A23a04b3D48AAE31';
 const TANG_BOOSTER = '0xF403C135812408BFbE8713b5A23a04b3D48AAE31';
 const CRV_REWARD_ADDR = '0x3Fe65692bfCD0e6CF84cB1E7d24108E434A7587e';
 const CONVEX_ADDR = '0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B';
+const provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_API_KEY);
 
 async function	getTangAndConvex() {
-	const provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_API_KEY);
-
 	/**********************************************************************
 	**	First thing we need to do is to build a provider for the CVX
 	**	Booster contract.
@@ -162,6 +162,36 @@ async function getTVL() {
 	return {tvl, vsPrices};
 }
 
+async function getPoolsInfo(_pools) {
+	const	ethcallProvider = new Provider(provider);
+	await	ethcallProvider.init();
+	const	BoosterContract = new ethers.Contract(CONVEX_BOOSTER, BOOSTER_ABI, provider);
+	const	BoosterContractMulti = new Contract(CONVEX_BOOSTER, BOOSTER_ABI);
+	const	poolLen = await BoosterContract.poolLength();
+	const	calls = [];
+	for (let index = 0; index < poolLen; index++) {
+		calls.push(BoosterContractMulti.poolInfo(index));
+	}
+	const	result = await ethcallProvider.all(calls);
+	const	_boosterPools = result.map((poolInfo, pid) => ({
+		pid,
+		crvRewards: poolInfo.crvRewards,
+		gauge: poolInfo.gauge,
+		lptoken: poolInfo.lptoken,
+		shutdown: poolInfo.shutdown,
+		stash: poolInfo.stash,
+		token: poolInfo.token
+	}));
+
+	return _pools.map((_pool) => {
+		const	_boosterPoolData = _boosterPools.find(e => e.lptoken.toLowerCase() === _pool.addresses.lpToken.toLowerCase());
+		if (!_boosterPoolData) {
+			return _pool;
+		}
+		return ({..._pool, crvRewards: _boosterPoolData.crvRewards, pid: _boosterPoolData.pid});
+	});
+}
+
 async function getTang({address}) {
 	const [
 		additionalRewards,
@@ -187,9 +217,10 @@ async function getTang({address}) {
 		getTangAndConvex(),
 	]);
 
-	console.log('HEREEEREEEREE');
-
-	const _pools = arrayToHashmap(pools.map((pool, index) => [pool.id, {
+	const	_poolsWithPid = await getPoolsInfo(pools);
+	const	_pools = arrayToHashmap(_poolsWithPid.map((pool, index) => [pool.id, {
+		crvRewards: pool.crvRewards,
+		pid: pool.pid,
 		baseApy: baseApys[index],
 		crvApy: crvApys[pool.id],
 		crvApysBase: crvApysBase[pool.id],
