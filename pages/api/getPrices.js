@@ -13,7 +13,6 @@ async function	getTriCryptoPrice() {
 }
 
 async function getPrice() {
-	console.log('Re-fetching prices');
 	const	vsCurrencies = ['usd'];
 	const	_addressesToFetch = [];
 	const	_idToFetch = [];
@@ -28,6 +27,7 @@ async function getPrice() {
 	});
 
 	const	_cgIDs = ['curve-dao-token', 'convex-finance', 'convex-crv', ...new Set(_idToFetch)];
+
 	const	[prices, triPrices] = await Promise.all([
 		fetcher(`https://api.coingecko.com/api/v3/simple/price?ids=${_cgIDs}&vs_currencies=${vsCurrencies}`),
 		getTriCryptoPrice()
