@@ -112,7 +112,7 @@ async function	getTangAndConvex() {
 }
 
 async function getTVL() {
-	const {data: prices} = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${['ethereum', 'bitcoin', 'chainlink', 'stasis-eurs']}&vs_currencies=usd`);
+	const {data: prices} = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${['ethereum', 'bitcoin', 'chainlink', 'stasis-eurs', 'convex-crv']}&vs_currencies=usd`);
 	const provider = new ethers.providers.AlchemyProvider('homestead', process.env.ALCHEMY_API_KEY);
 	const ethcallProvider = new Provider(provider);
 	await ethcallProvider.init();
@@ -159,7 +159,7 @@ async function getTVL() {
 		vsPrices[pool.id] = vsPrice;
 		i += 2;
 	});
-	return {tvl, vsPrices};
+	return {tvl, vsPrices, cvxPrice: prices['convex-crv'].usd};
 }
 
 async function getPoolsInfo(_pools) {
@@ -207,7 +207,7 @@ async function getTang({address}) {
 			ExtraAPYs: extraApy,
 			stackedTangAPYs
 		},
-		{tvl},
+		{tvl, cvxPrice},
 		{supply},
 	] = await Promise.all([
 		getCurveRewards(),
@@ -241,7 +241,7 @@ async function getTang({address}) {
 		'crvApy': stackedTangAPYs.crvAPR,
 		'tangApy': stackedTangAPYs.tangAPR,
 		'extraApy': stackedTangAPYs.crv3APR,
-		'supply': supply.tang
+		'tvl': supply.tangCRV * cvxPrice
 	};
 	return _pools;
 }
