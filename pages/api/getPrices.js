@@ -21,19 +21,15 @@ async function getPrice() {
 	pools.forEach((pool) => {
 		_idToFetch.push(pool?.coingeckoInfo?.id || 'dai');
 		_addressesToFetch.push(pool.addresses.lpToken.toLowerCase());
-		const	_additionnalAddresses = pool?.additionalRewards?.map(e => e.convexRewarder.toLowerCase());
 		const	_additionnalCgID = pool?.additionalRewards?.map(e => e.rewardTokenCoingeckoId);
-		if (_additionnalAddresses?.length > 0) {
-			_addressesToFetch.push(..._additionnalAddresses);
+		if (_additionnalCgID?.length > 0) {
 			_idToFetch.push(..._additionnalCgID);
 		}
 	});
 
 	const	_cgIDs = ['curve-dao-token', 'convex-finance', 'convex-crv', ...new Set(_idToFetch)];
-	const	_cgAddresses = [...new Set(_addressesToFetch)];
 	const	[_iPrices, _aPrices, _triPrices] = await Promise.all([
 		fetcher(`https://api.coingecko.com/api/v3/simple/price?ids=${_cgIDs}&vs_currencies=${vsCurrencies}`),
-		fetcher(`https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=${_cgAddresses.join(',')}&vs_currencies=${vsCurrencies}`),
 		getTriCryptoPrice()
 	]);
 	const	prices = {..._iPrices, ..._aPrices};

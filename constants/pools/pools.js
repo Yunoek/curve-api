@@ -318,10 +318,6 @@ module.exports = [
 			coins.sbtc,
 		],
 		referenceAsset: REFERENCE_ASSETS.BTC,
-		oldAdditionalRewards: [{
-			name: 'SNX',
-			rewardTokenCoingeckoId: 'havven',
-		}],
 		addresses: {
 			underlying: '0xfe18be6b3bd88a2d2a7f928d00292e7a9963cfc6',
 			swap: '0x7fC77b5c7614E1533320Ea6DDc2Eb61fa00A9714',
@@ -574,10 +570,6 @@ module.exports = [
 			coins.usdc,
 			coins.usdt,
 		],
-		oldAdditionalRewards: [{
-			name: 'MTA',
-			rewardTokenCoingeckoId: 'meta',
-		}],
 		addresses: {
 			underlying: '0xe2f2a5C287993345a840Db3B0845fbC70f5935a5',
 			swap: '0x8474DdbE98F5aA3179B3B3F5942D724aFcdec9f6',
@@ -653,10 +645,6 @@ module.exports = [
 			coins.sbtc,
 		],
 		referenceAsset: REFERENCE_ASSETS.BTC,
-		oldAdditionalRewards: [{
-			name: 'KEEP',
-			rewardTokenCoingeckoId: 'keep-network',
-		}],
 		addresses: {
 			underlying: '0x8dAEBADE922dF735c38C80C7eBD708Af50815fAa',
 			swap: '0xC25099792E9349C7DD09759744ea681C7de2cb66',
@@ -883,12 +871,6 @@ module.exports = [
 			coins.seur,
 		],
 		referenceAsset: REFERENCE_ASSETS.EUR,
-		oldAdditionalRewards: [{
-			name: 'SNX',
-			rewardTokenAddress: '0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F',
-			rewardTokenDecimals: 18,
-			rewardTokenCoingeckoId: 'havven',
-		}],
 		addresses: {
 			underlying: '0xdb25f211ab05b1c97d595516f45794528a807ad8',
 			swap: '0x0Ce6a5fF5217e38315f87032CF90686C96627CAA',
