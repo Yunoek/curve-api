@@ -13,6 +13,7 @@ async function	getTriCryptoPrice() {
 }
 
 async function getPrice() {
+	console.log('Re-fetching prices');
 	const	vsCurrencies = ['usd'];
 	const	_addressesToFetch = [];
 	const	_idToFetch = [];
