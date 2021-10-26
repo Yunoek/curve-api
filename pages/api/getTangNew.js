@@ -3,7 +3,6 @@ import getCRVAPY from 'utils/data/getCRVAPY';
 import getCurveRewards from 'utils/data/getCurveRewards';
 import {arrayToHashmap} from 'utils/Array';
 import pools from 'constants/pools';
-import {fn} from '../../utils/api';
 
 import {ethers} from 'ethers';
 import {Provider, Contract} from 'ethers-multicall';
@@ -218,7 +217,6 @@ async function getTang({address}) {
 
 const	getNewTangMapping = {};
 let		getNewTangMappingAccess = {};
-
 export default async function handler(req, res) {
 	let		{address, revalidate} = req.query;
 	address = address.toLowerCase();
@@ -233,59 +231,3 @@ export default async function handler(req, res) {
 	res.setHeader('Cache-Control', 's-maxage=600'); // 10 minutes
 	return res.status(200).json(getNewTangMapping[address]);
 }
-
-
-// export default fn(async ({address}) => {
-// 	const [
-// 		additionalRewards,
-// 		{
-// 			dailyApy: baseApys
-// 		},
-// 		{
-// 			CRVAPYs: crvApys,
-// 			boosts,
-// 			CRVRate: crvRate,
-// 			CRVAPYsBase: crvApysBase,
-// 			TANGAPY: tangApy,
-// 			ExtraAPYs: extraApy,
-// 			stackedTangAPYs
-// 		},
-// 		{tvl},
-// 		{supply},
-// 	] = await Promise.all([
-// 		getCurveRewards(),
-// 		getAPY(),
-// 		getCRVAPY(address || '0x0000000000000000000000000000000000000000'),
-// 		getTVL(),
-// 		getTangAndConvex(),
-// 	]);
-
-
-// 	const _pools = arrayToHashmap(pools.map((pool, index) => [pool.id, {
-// 		baseApy: baseApys[index],
-// 		crvApy: crvApys[pool.id],
-// 		crvApysBase: crvApysBase[pool.id],
-// 		crvRate: crvRate[pool.id],
-// 		crvBoost: boosts[pool.id],
-// 		tangApy: tangApy[pool.id],
-// 		extraApy: extraApy[pool.id],
-// 		tvl: tvl[pool.id],
-// 		additionalRewards: pool.additionalRewards.map(({key, name, convexRewarder}) => ({
-// 			convexRewarder: convexRewarder,
-// 			apy: additionalRewards[key || name]?.rewards,
-// 		}))
-// 	}]));
-// 	_pools.convex = {
-// 		supply: supply.convex,
-// 	};
-// 	_pools.crv = {
-// 		'crvApy': stackedTangAPYs.crvAPR,
-// 		'tangApy': stackedTangAPYs.tangAPR,
-// 		'extraApy': stackedTangAPYs.crv3APR,
-// 		'supply': supply.tang
-// 	};
-
-// 	return {
-// 		pools: _pools
-// 	};
-// }, {maxAge: 10 * 60});

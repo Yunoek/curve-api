@@ -1,5 +1,4 @@
 import pools from 'constants/pools';
-import {fn} from '../../utils/api';
 import {ethers} from 'ethers';
 const	fetcher = (...args) => fetch(...args).then(res => res.json());
 
@@ -13,7 +12,7 @@ async function	getTriCryptoPrice() {
 	return triCryptoPrice;
 }
 
-export default fn(async () => {
+async function getPrice() {
 	const	vsCurrencies = ['usd'];
 	const	_addressesToFetch = [];
 	const	_idToFetch = [];
@@ -39,4 +38,20 @@ export default fn(async () => {
 	prices.tricrypto2 = {usd: _triPrices};
 
 	return prices;
-}, {maxAge: 5 * 60}); //5 minutes
+} //5 minutes
+
+let		getPriceMapping = null;
+let		getPriceMappingAccess = 0;
+export default async function handler(req, res) {
+	const	{revalidate} = req.query;
+	const	now = new Date().getTime();
+	const	lastAccess = getPriceMappingAccess || 0;
+
+	if (lastAccess === 0 || ((now - lastAccess) > 5 * 60 * 1000) || revalidate === 'true' || !getPriceMapping) {
+		const	_prices = await getPrice();
+		getPriceMapping = _prices;
+		getPriceMappingAccess = now;
+	}
+	res.setHeader('Cache-Control', 's-maxage=300'); // 5 minutes
+	return res.status(200).json(getPriceMapping);
+}
