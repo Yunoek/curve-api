@@ -22,8 +22,10 @@ async function getPrice() {
 		_idToFetch.push(pool?.coingeckoInfo?.id || 'dai');
 		_addressesToFetch.push(pool.addresses.lpToken.toLowerCase());
 		const	_additionnalAddresses = pool?.additionalRewards?.map(e => e.convexRewarder.toLowerCase());
+		const	_additionnalCgID = pool?.additionalRewards?.map(e => e.rewardTokenCoingeckoId);
 		if (_additionnalAddresses?.length > 0) {
 			_addressesToFetch.push(..._additionnalAddresses);
+			_idToFetch.push(..._additionnalCgID);
 		}
 	});
 
